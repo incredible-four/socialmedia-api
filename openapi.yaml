@@ -239,6 +239,88 @@ paths:
           $ref: "#/components/responses/400"
         500:
           $ref: "#/components/responses/500"
+  /contents/edit:
+    patch:
+      tags:
+        - "Content"
+      description: edit user content
+      summary: edit user content
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                pp_path: content/post.jpg
+                caption: gunung semeru
+      responses:
+        200:
+          description: "success edit user content"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+              example:
+                message: "success edit user content"
+        404:
+          description: data not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "data not found"
+        500:
+          $ref: "#/components/responses/500"
+  /contents/delete:
+    delete:
+      tags:
+        - "Content"
+      description: Delete Content
+      summary: Delete Content
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: success delete content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: "success delete content"
+        404:
+          description: data not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "data not found"
+        500:
+          $ref: "#/components/responses/500"
 
 components:
   schemas:
