@@ -1,0 +1,305 @@
+openapi: 3.0.3
+
+info:
+  title: Incredible Four
+  description: API Documentation for our Social
+    Media App
+  version: 1.0.0
+servers:
+  - url: remotecareer.tech
+    description: digunakan untuk uji coba
+  - url: remotecareer.tech
+    description: digunakan untuk running
+tags:
+  - name: Auth
+  - name: User
+  - name: Content
+  - name: Comment
+paths:
+  /register:
+    post:
+      tags:
+        - "Auth"
+        - "User"
+      description: Create New User
+      summary: register user
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        201:
+          description: "Register Success"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+              example:
+                message: "succes creating new user"
+        400:
+          $ref: "#/components/responses/400"
+        500:
+          $ref: "#/components/responses/500"
+  /login:
+    post:
+      tags:
+        - "User"
+        - "Auth"
+      description: Login to the System
+      summary: login user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  example: alifmh123
+                password:
+                  type: string
+                  format: password
+                  example: alif123
+      responses:
+        200:
+          description: "login berhasil"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/responseObject"
+              example:
+                data:
+                  id: "1"
+                  nama: Alif Muhamad Hafidz
+                  username: alifmh123
+                  email: alifmuhamadhafidz23@gmail.com
+                  pp_path: "/path/alif.png"
+                message: "login success"
+        400:
+          $ref: "#/components/responses/400"
+        500:
+          $ref: "#/components/responses/500"
+  /users/edit:
+    patch:
+      tags:
+        - "User"
+      description: edit user profile
+      summary: edit user profile
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                pp_path: "/path/alif.png"
+                name: Alif Muhamad Hafidz
+                username: alifmh123
+                email: alifmuhamadhafidz23@gmail.com
+      responses:
+        200:
+          description: success update profile
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                pp_path: /path/alif.png
+                name: Alif Muhamad Hafidz
+                username: alifmh123
+                email: alifmuhamadhafidz23@gmail.com
+        404:
+          description: data not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "data not found"
+        500:
+          $ref: "#/components/responses/500"
+  /users/deactivate:
+    delete:
+      tags:
+        - "User"
+      description: deactivate user
+      summary: deactivate user
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: success deactivate
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: "succes deactivate"
+        404:
+          description: data not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "data not found"
+        500:
+          $ref: "#/components/responses/500"
+  /contents/create:
+    post:
+      tags:
+        - "Content"
+      description: hapus user
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                pp_path: content/post.jpg
+                caption: gunung semeru
+      responses:
+        201:
+          description: "succes post content"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+              example:
+                message: "success post content"
+        400:
+          $ref: "#/components/responses/400"
+        500:
+          $ref: "#/components/responses/500"
+  /contents:
+    get:
+      tags:
+        - "Content"
+      description: get all content
+      summary: get all content
+      responses:
+        200:
+          description: "success get all content"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+              example:
+                message: "success get all content"
+        400:
+          $ref: "#/components/responses/400"
+        500:
+          $ref: "#/components/responses/500"
+  /contents/username:
+    get:
+      tags:
+        - "Content"
+      description: get user content
+      summary: get user content
+      responses:
+        200:
+          description: "success get user content"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+              example:
+                message: "success get user content"
+        400:
+          $ref: "#/components/responses/400"
+        500:
+          $ref: "#/components/responses/500"
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Alif Muhamad Hafidz
+        username:
+          type: string
+          example: alifmh123
+        email:
+          type: string
+          format: email
+          example: alifmuhamadhafidz23@gmail.com
+        password:
+          type: string
+          format: password
+          example: alif123
+        confirm_password:
+          type: string
+          format: password
+          example: alif123
+    Content:
+      type: object
+      properties:
+        pp_path:
+          type: string
+          example: content/post.jpg
+        caption:
+          type: string
+          example: gunung semeru
+    responseObject:
+      type: object
+      properties:
+        data:
+          type: object
+        message:
+          type: string
+  responses:
+    400:
+      description: "Invalid User Input"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: "invalid input"
+
+    500:
+      description: "Servers Problem"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              message:
+                type: string
+          example:
+            message: "unable to process the data"
