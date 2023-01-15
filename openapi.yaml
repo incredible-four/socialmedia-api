@@ -81,6 +81,44 @@ paths:
           $ref: "#/components/responses/400"
         500:
           $ref: "#/components/responses/500"
+  /:username:
+    get:
+      tags:
+        - "User"
+      description: get data user
+      summary: get data user
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: success show profile
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                pp_path: /path/alif.png
+                name: Alif Muhamad Hafidz
+                username: alifmh123
+                email: alifmuhamadhafidz23@gmail.com
+                bio: smile :)
+        404:
+          description: data not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "data not found"
+        500:
+          $ref: "#/components/responses/500"
   /users/edit:
     patch:
       tags:
@@ -114,7 +152,7 @@ paths:
               schema:
                 type: object
               example:
-                pp_path: /path/alif.png
+                img_path: /pp/alif.png
                 name: Alif Muhamad Hafidz
                 username: alifmh123
                 email: alifmuhamadhafidz23@gmail.com
@@ -137,6 +175,8 @@ paths:
         - "User"
       description: deactivate user
       summary: deactivate user
+      security:
+        - JWTAuth: []
       parameters:
         - name: token
           in: path
@@ -186,7 +226,7 @@ paths:
             schema:
               type: object
               example:
-                pp_path: content/post.jpg
+                img_path: content/post.jpg
                 caption: gunung semeru
       responses:
         201:
@@ -199,6 +239,89 @@ paths:
                 message: "success post content"
         400:
           $ref: "#/components/responses/400"
+        500:
+          $ref: "#/components/responses/500"
+  /comments/create:
+    post:
+      tags:
+        - "Comment"
+      description: insert new comment
+      summary: insert new comment
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id_content
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                text: bang giveaway bang
+      responses:
+        200:
+          description: "success post comment"
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  data:
+                    id: 1
+                    text: bang giveaway bang
+                  message: success create comment
+        400:
+          $ref: "#/components/responses/400"
+        500:
+          $ref: "#/components/responses/500"
+  /comments/delete:
+    delete:
+      tags:
+        - "Comment"
+      description: Delete Comment
+      summary: Delete Comment
+      parameters:
+        - name: token
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: id_comment
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: success delete comment
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: "success delete comment"
+        404:
+          description: data not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "data not found"
         500:
           $ref: "#/components/responses/500"
   /contents:
@@ -253,6 +376,11 @@ paths:
           required: true
           schema:
             type: string
+        - name: id_content
+          in: path
+          required: true
+          schema:
+            type: integer
       requestBody:
         required: true
         content:
@@ -260,7 +388,6 @@ paths:
             schema:
               type: object
               example:
-                pp_path: content/post.jpg
                 caption: gunung semeru
       responses:
         200:
