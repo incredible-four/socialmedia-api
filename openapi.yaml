@@ -88,11 +88,11 @@ paths:
       description: get data user
       summary: get data user
       parameters:
-      - name: username
-        in: path
-        required: true
-        schema:
-          type: string
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
         200:
           description: success show profile
@@ -450,6 +450,11 @@ paths:
           $ref: "#/components/responses/500"
 
 components:
+  securitySchemes:
+    JWTAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
     User:
       type: object
