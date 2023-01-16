@@ -19,7 +19,7 @@ Here's the list endpoints we have agreed on :
 | ----------- | ------------------- | ----------- | ----------- | --------------------------------------- |
 | POST        | /register           | -           | NO          | Register a new user                     |
 | POST        | /login              | -           | NO          | Login to the system                     |
-| GET         | /users/{username}   | -           | NO          | Show profile (get user & its contents)  |
+| GET         | /users/{username}   | username    | NO          | Show profile (get user & its contents)  |
 | GET         | /users              | -           | YES         | Get data user (for edit profile form)   |
 | PUT         | /users              | -           | YES         | Update user profile                     |
 | DELETE      | /users              | -           | YES         | Deactivate user account                 |
