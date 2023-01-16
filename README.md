@@ -1,6 +1,6 @@
 # Description
 
-It's a backend system for our [social media app project](https://github.com/incredible-four/socialmedia-app). User can post a content and comment on other's posts. This REST API was developed using Golang and written based on Clean Architecture principles with Echo Framework as web framework, GORM as ORM and MySQL as DBMS.
+It's a backend system for our [social media app](https://github.com/incredible-four/socialmedia-app). User can post a content and comment on other's posts. This REST API was developed using Golang and written based on Clean Architecture principles with Echo Framework as web framework, GORM as ORM and MySQL as DBMS.
 
 # ⚡Features
 - CRUD (Users, Contents, Comments)
