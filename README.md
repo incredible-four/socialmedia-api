@@ -49,8 +49,6 @@ Here's the list endpoints we have agreed on :
   
 </details>
 
-<br>
-
 # 🔗 ERD
 
 ![run](./ERD.png)
