@@ -7,6 +7,7 @@ It's a backend system for our [social media app project](https://github.com/incr
 - Hashing password
 - Authentication & Authorization
 - Database Migration
+- CI/CD with DockerHub & AWS EC2
 
 # 🔥 Open API
 
