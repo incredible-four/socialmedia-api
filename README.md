@@ -33,7 +33,7 @@ Here's the list endpoints we have agreed on :
 | ----------- | ----------------------- | ----------- | ----------- | --------------------------------------- |
 | GET         | /contents               | -           | NO          | Get all contents                        |
 | GET         | /contents/{id_content}  | id_content  | NO          | Get a content by its ID                 |
-| POST        | /contents               | -           | YES         | Create a new content                    |
+| POST        | /contents               | -           | YES         | Post a new content                      |
 | PUT         | /contents/{id_content}  | id_content  | YES         | Update a content                        |
 | DELETE      | /contents/{id_content}  | id_content  | YES         | Delete a content                        |
   
