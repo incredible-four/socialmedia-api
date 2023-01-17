@@ -2,6 +2,7 @@ package data
 
 import (
 	"incrediblefour/features/comment/data"
+	"incrediblefour/features/content"
 	"time"
 
 	"gorm.io/gorm"
@@ -22,4 +23,20 @@ type AllContents struct {
 	Username  string
 	UpdatedAt time.Time
 	Comment   []data.Comments `gorm:"foreignkey:ContentID"`
+}
+
+func ToCore(data Contents) content.Core {
+	return content.Core{
+		ID:      data.ID,
+		Image:   data.Image,
+		Caption: data.Caption,
+	}
+}
+
+func CoreToData(data content.Core) Contents {
+	return Contents{
+		Model:   gorm.Model{ID: data.ID},
+		Image:   data.Image,
+		Caption: data.Caption,
+	}
 }
