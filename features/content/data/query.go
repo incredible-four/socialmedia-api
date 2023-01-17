@@ -33,7 +33,7 @@ func (cd *contentData) Add(userID uint, newContent content.Core) (content.Core, 
 
 func (cd *contentData) MyContent(contentID uint) ([]content.Core, error) {
 	res := []Contents{}
-	if err := cd.db.Where("content_id = ?", contentID).Find(&res).Error; err != nil {
+	if err := cd.db.Where("id = ?", contentID).Find(&res).Error; err != nil {
 		log.Println("Get User Content by User ID query error : ", err.Error())
 		return []content.Core{}, err
 	}
@@ -43,7 +43,7 @@ func (cd *contentData) MyContent(contentID uint) ([]content.Core, error) {
 
 func (cd *contentData) ContentList() ([]content.Core, error) {
 	res := []AllContents{}
-	if err := cd.db.Table("contents").Joins("JOIN users ON users.id = content.user_id").Select("contents.id, contents.avatar, contents.username, contents.image, contents.caption, users.username as Owner").Find(&res).Error; err != nil {
+	if err := cd.db.Table("contents").Joins("JOIN users ON users.id = contents.user_id").Select("contents.id, contents.avatar, contents.username, contents.image, contents.caption, users.username as Owner").Find(&res).Error; err != nil {
 		log.Println("get all content query error : ", err.Error())
 		return []content.Core{}, err
 	}

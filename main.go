@@ -2,9 +2,12 @@ package main
 
 import (
 	"incrediblefour/config"
-	"incrediblefour/features/user/data"
-	"incrediblefour/features/user/handler"
-	"incrediblefour/features/user/services"
+	cntD "incrediblefour/features/content/data"
+	cntH "incrediblefour/features/content/handler"
+	cntS "incrediblefour/features/content/services"
+	usrD "incrediblefour/features/user/data"
+	usrH "incrediblefour/features/user/handler"
+	usrS "incrediblefour/features/user/services"
 	"log"
 
 	"github.com/labstack/echo/v4"
@@ -17,9 +20,13 @@ func main() {
 	db := config.InitDB(*cfg)
 	config.Migrate(db)
 
-	userData := data.New(db)
-	userSrv := services.New(userData)
-	userHdl := handler.New(userSrv)
+	userData := usrD.New(db)
+	userSrv := usrS.New(userData)
+	userHdl := usrH.New(userSrv)
+
+	contentData := cntD.New(db)
+	contentSrv := cntS.New(contentData)
+	contentHdl := cntH.New(contentSrv)
 
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.CORS())
@@ -30,12 +37,19 @@ func main() {
 	e.POST("/register", userHdl.Register())
 	e.POST("/login", userHdl.Login())
 
+	e.GET("/contents/:id", contentHdl.MyContent())
+	e.GET("/contents", contentHdl.ContentList())
+
 	auth := e.Group("")
 	auth.Use(middleware.JWT([]byte(config.JWTKey)))
-
+	
 	auth.GET("/users", userHdl.Profile())
 	auth.PUT("/users", userHdl.Update())
 	auth.DELETE("/users", userHdl.Deactivate())
+	
+	auth.POST("/contents", contentHdl.Add())
+	auth.PUT("/contents/:id", contentHdl.Update())
+	auth.DELETE("/contents/:id", contentHdl.Delete())
 
 	if err := e.Start(":8000"); err != nil {
 		log.Println(err.Error())

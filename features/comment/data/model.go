@@ -1,5 +1,10 @@
 package data
 
+import "gorm.io/gorm"
+
 type Comments struct {
-	Text string
+	gorm.Model
+	Text 	  string
+	UserID	  uint
+	ContentID uint
 }

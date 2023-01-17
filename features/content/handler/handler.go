@@ -77,7 +77,7 @@ func (ch *contentHandle) Update() echo.HandlerFunc {
 
 		if err != nil {
 			log.Println("convert id error", err.Error())
-			return c.JSON(http.StatusBadGateway, "masukan input sesuai pola")
+			return c.JSON(http.StatusBadGateway, "Invalid input")
 		}
 
 		body := UpdateContentRequest{}
@@ -91,7 +91,7 @@ func (ch *contentHandle) Update() echo.HandlerFunc {
 			return c.JSON(helper.PrintErrorResponse(err.Error()))
 		}
 
-		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "berhasil edit content", res))
+		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "Success edit content", res))
 	}
 }
 
@@ -105,7 +105,7 @@ func (ch *contentHandle) Delete() echo.HandlerFunc {
 
 		if err != nil {
 			log.Println("convert id error", err.Error())
-			return c.JSON(http.StatusBadGateway, "masukan input sesuai pola")
+			return c.JSON(http.StatusBadGateway, "Invalid input")
 		}
 
 		err = ch.srv.Delete(token, uint(contentID))
@@ -114,6 +114,6 @@ func (ch *contentHandle) Delete() echo.HandlerFunc {
 			return c.JSON(helper.PrintErrorResponse(err.Error()))
 		}
 
-		return c.JSON(http.StatusAccepted, "berhasil delete content")
+		return c.JSON(http.StatusAccepted, "Success delete content")
 	}
 }
