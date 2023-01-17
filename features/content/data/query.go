@@ -30,9 +30,9 @@ func (cd *contentData) Add(userID uint, newContent content.Core) (content.Core, 
 	return newContent, nil
 }
 
-func (cd *contentData) MyContent(userID uint) ([]content.Core, error) {
+func (cd *contentData) MyContent(contentID uint) ([]content.Core, error) {
 	res := []Contents{}
-	if err := cd.db.Where("user_id = ?", userID).Find(&res).Error; err != nil {
+	if err := cd.db.Where("content_id = ?", contentID).Find(&res).Error; err != nil {
 		log.Println("Get User Content by User ID query error : ", err.Error())
 		return []content.Core{}, err
 	}

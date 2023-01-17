@@ -51,3 +51,18 @@ func (cs *contentSrv) Add(token interface{}, newContent content.Core) (content.C
 
 	return res, nil
 }
+
+func (cs *contentSrv) MyContent(contentID uint) ([]content.Core, error) {
+
+	res, err := cs.data.MyContent(contentID)
+	if err != nil {
+		msg := ""
+		if strings.Contains(err.Error(), "not found") {
+			msg = "content not found"
+		} else {
+			msg = "unable to process the data"
+		}
+		return []content.Core{}, errors.New(msg)
+	}
+	return res, nil
+}
