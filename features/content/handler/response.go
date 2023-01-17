@@ -21,3 +21,22 @@ func ToResponse(data content.Core) ContentResponse {
 		UserID:   data.UserID,
 	}
 }
+
+func CoresToResponse(dataCore content.Core) ContentResponse {
+	return ContentResponse{
+		ID:       dataCore.ID,
+		Avatar:   dataCore.Avatar,
+		Username: dataCore.Username,
+		Image:    dataCore.Image,
+		Caption:  dataCore.Caption,
+		UserID:   dataCore.UserID,
+	}
+}
+
+func ListCoreToResp(data []content.Core) []ContentResponse {
+	var dataResp []ContentResponse
+	for _, v := range data {
+		dataResp = append(dataResp, CoresToResponse(v))
+	}
+	return dataResp
+}
