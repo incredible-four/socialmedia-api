@@ -1,6 +1,7 @@
-on:
-  release:
-    types: [published]
+on: 
+  push:
+    branches:
+      - main
 jobs:
   build:
     name: Build
@@ -25,7 +26,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKER_USER }}/four-img:latest          
+          tags: ${{ secrets.DOCKER_USER }}/${{ secrets.IMAGE }}:latest          
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v0.1.7
       with:
@@ -37,8 +38,8 @@ jobs:
           touch works.txt
           echo "Great, it works! at $(date)" >> works.txt
           sudo chmod 777 /var/run/docker.sock
-          docker rmi ${{ secrets.DOCKER_USER }}/four-img
-          docker pull ${{ secrets.DOCKER_USER }}/four-img
-          docker stop four-cont
-          docker rm four-cont
-          docker run --name four-cont -e DBUSER=${{ secrets.DBUSER }} -e DBPASS=${{ secrets.DBPASS }} -e DBHOST=${{ secrets.DBHOST }} -e DBPORT=${{ secrets.DBPORT }} -e DBNAME=${{ secrets.DBNAME }} -e JWTKEY=${{ secrets.JWTKEY }} -d -p 80:8000 four-img
+          docker rmi ${{ secrets.DOCKER_USER }}/${{ secrets.IMAGE }}
+          docker pull ${{ secrets.DOCKER_USER }}/${{ secrets.IMAGE }}
+          docker stop ${{ secrets.CONTAINER }}
+          docker rm ${{ secrets.CONTAINER }}
+          docker run --name ${{ secrets.CONTAINER }} -e DBUSER=${{ secrets.DBUSER }} -e DBPASS=${{ secrets.DBPASS }} -e DBHOST=${{ secrets.DBHOST }} -e DBPORT=${{ secrets.DBPORT }} -e DBNAME=${{ secrets.DBNAME }} -e JWTKEY=${{ secrets.JWTKEY }} -d -p 80:8000 ${{ secrets.IMAGE }}

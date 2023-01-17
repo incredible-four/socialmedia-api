@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"incrediblefour/features/user/data"
 	"log"
 
 	"gorm.io/driver/mysql"
@@ -21,4 +22,5 @@ func InitDB(ac AppConfig) *gorm.DB {
 }
 
 func Migrate(db *gorm.DB) {
+	db.AutoMigrate(data.Users{})
 }
