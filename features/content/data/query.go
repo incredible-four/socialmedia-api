@@ -39,3 +39,12 @@ func (cd *contentData) MyContent(contentID uint) ([]content.Core, error) {
 
 	return ListToCore(res), nil
 }
+
+func (cd *contentData) ContentList() ([]content.Core, error) {
+	res := []AllContents{}
+	if err := cd.db.Table("contents").Joins("JOIN users ON users.id = content.user_id").Select("contents.id, contents.avatar, contents.username, contents.image, contents.caption, users.username as Owner").Find(&res).Error; err != nil {
+		log.Println("get all content query error : ", err.Error())
+		return []content.Core{}, err
+	}
+	return AllListToCore(res), nil
+}
