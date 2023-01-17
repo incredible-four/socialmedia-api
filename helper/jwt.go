@@ -27,12 +27,6 @@ func GenerateJWT(id int) (string, interface{}) {
 	claims["userID"] = id
 	// claims["exp"] = time.Now().Add(time.Hour * 1).Unix() //Token expires after 1 hour
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-<<<<<<< HEAD
 	useToken, _ := token.SignedString([]byte(config.JWTKey))
 	return useToken, token
 }
-=======
-	useToken, _ := token.SignedString([]byte(config.JWTKEY))
-	return useToken, token
-}
->>>>>>> feat: function Add in Service
