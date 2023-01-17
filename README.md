@@ -1,6 +1,6 @@
 # Description
 
-It's the backend system for our [social media app project](https://github.com/incredible-four/socialmedia-app). User can post a content and comment on other's posts. This REST API was developed using Golang and written based on Clean Architecture principles with Echo as web framework, GORM as ORM and MySQL as DBMS.
+It's the backend system for our [social media app project](https://github.com/incredible-four/socialmedia-app). User can post contents and comment on other's posts. This REST API was developed by using Golang and written based on Clean Architecture principles with Echo as web framework, GORM as ORM, MySQL as DBMS, etc.
 
 # ⚡Features
 - CRUD (Users, Contents, Comments)
@@ -62,7 +62,8 @@ Here's the list of endpoints we have agreed on :
 - [GORM](https://gorm.io/) : ORM Library
 - [MySQL](https://gorm.io/) : Database Management System
 - [Docker](https://docker.com/) : Containerization
-- [AWS](https://aws.amazon.com/) : Cloud Server
+- [Amazon EC2](https://aws.amazon.com/) : Cloud Server
+- [Amazon S3](https://aws.amazon.com/) : Store and retrieve objects
 
 # 🛠️ Installation Steps
 
