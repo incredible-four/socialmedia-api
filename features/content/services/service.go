@@ -80,3 +80,29 @@ func (cs *contentSrv) ContentList() ([]content.Core, error) {
 	}
 	return res, nil
 }
+
+func (cs *contentSrv) Update(token interface{}, contentID uint, updatedContent content.Core) (content.Core, error) {
+	id := helper.ExtractToken(token)
+
+	if id <= 0 {
+		return content.Core{}, errors.New("data not found")
+	}
+
+	res, err := cs.data.Update(uint(id), contentID, updatedContent)
+	if err != nil {
+		msg := ""
+		if strings.Contains(err.Error(), "not found") {
+			msg = "Failed to update, no new record or data not found"
+		} else if strings.Contains(err.Error(), "Unauthorized") {
+			msg = "Unauthorized request"
+		} else {
+			msg = "unable to process the data"
+		}
+		return content.Core{}, errors.New(msg)
+	}
+
+	res.ID = contentID
+	res.UserID = uint(id)
+
+	return res, nil
+}
