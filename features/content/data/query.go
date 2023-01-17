@@ -76,3 +76,29 @@ func (cd *contentData) Update(userID uint, contentID uint, updatedContent conten
 	}
 	return updatedContent, nil
 }
+
+func (cd *contentData) Delete(userID uint, contentID uint) error {
+	getID := Contents{}
+	err := cd.db.Where("id = ?", contentID).First(&getID).Error
+
+	if err != nil {
+		log.Println("get content error : ", err.Error())
+		return errors.New("failed to get content data")
+	}
+
+	if getID.UserID != userID {
+		log.Println("unauthorized request")
+		return errors.New("inauthorized request")
+	}
+
+	qryDelete := cd.db.Delete(&Contents{}, contentID)
+
+	affRow := qryDelete.RowsAffected
+
+	if affRow <= 0 {
+		log.Println("No rows affected")
+		return errors.New("failed to delete user content, data not found")
+	}
+
+	return nil
+}

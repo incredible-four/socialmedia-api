@@ -17,7 +17,7 @@ type ContentHandler interface {
 	MyContent() echo.HandlerFunc
 	ContentList() echo.HandlerFunc
 	Update() echo.HandlerFunc
-	// Delete() echo.HandlerFunc
+	Delete() echo.HandlerFunc
 }
 
 type ContentService interface {
@@ -25,7 +25,7 @@ type ContentService interface {
 	MyContent(contentID uint) ([]Core, error)
 	ContentList() ([]Core, error)
 	Update(token interface{}, contentID uint, updatedContent Core) (Core, error)
-	// Delete(token interface{}, contentID uint) (Core, error)
+	Delete(token interface{}, contentID uint) error
 }
 
 type ContentData interface {
@@ -33,5 +33,5 @@ type ContentData interface {
 	MyContent(contentID uint) ([]Core, error)
 	ContentList() ([]Core, error)
 	Update(userID uint, contentID uint, updatedContent Core) (Core, error)
-	// Delete(userID uint, contentID uint) (Core, error)
+	Delete(userID uint, contentID uint) error
 }
