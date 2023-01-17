@@ -56,3 +56,13 @@ func (ch *contentHandle) MyContent() echo.HandlerFunc {
 		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "success get user content", ListCoreToResp(res)))
 	}
 }
+
+func (ch *contentHandle) ContentList() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		res, err := ch.srv.ContentList()
+		if err != nil {
+			return c.JSON(helper.PrintErrorResponse(err.Error()))
+		}
+		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "success get all content", ListCoreToResp(res)))
+	}
+}
