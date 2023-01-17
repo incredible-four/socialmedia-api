@@ -21,10 +21,10 @@ type ContentHandler interface {
 
 type ContentService interface {
 	Add(token interface{}, newContent Core) (Core, error)
-	ContentList() ([]Core, error)
-	MyContent(token interface{}) ([]Core, error)
-	Update(token interface{}, contentID uint, updatedContent Core) (Core, error)
-	Delete(token interface{}, contentID uint) (Core, error)
+	// ContentList() ([]Core, error)
+	// MyContent(token interface{}) ([]Core, error)
+	// Update(token interface{}, contentID uint, updatedContent Core) (Core, error)
+	// Delete(token interface{}, contentID uint) (Core, error)
 }
 
 type ContentData interface {
