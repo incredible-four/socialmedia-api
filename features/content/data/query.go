@@ -1,6 +1,7 @@
 package data
 
 import (
+	"errors"
 	"incrediblefour/features/content"
 	"log"
 
@@ -47,4 +48,31 @@ func (cd *contentData) ContentList() ([]content.Core, error) {
 		return []content.Core{}, err
 	}
 	return AllListToCore(res), nil
+}
+
+func (cd *contentData) Update(userID uint, contentID uint, updatedContent content.Core) (content.Core, error) {
+	getID := Contents{}
+	err := cd.db.Where("id = ?", contentID).First(&getID).Error
+
+	if err != nil {
+		log.Println("get content error : ", err.Error())
+		return content.Core{}, err
+	}
+
+	if getID.UserID != userID {
+		log.Println("Unauthorized request")
+		return content.Core{}, errors.New("Unauthorized request")
+	}
+
+	cnv := CoreToData(updatedContent)
+	qry := cd.db.Where("id = ?", contentID).Updates(&cnv)
+	if qry.RowsAffected <= 0 {
+		log.Println("update content query error : data not found")
+		return content.Core{}, errors.New("not found")
+	}
+
+	if err := qry.Error; err != nil {
+		log.Println("update content query error : ", err.Error())
+	}
+	return updatedContent, nil
 }
