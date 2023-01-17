@@ -6,6 +6,9 @@ info:
     Media App
   version: 1.0.0
 servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/ALIFMUHAMADHAFIDZ23/SocialMedia-Group4/1.0.0
   - url: remotecareer.tech
     description: digunakan untuk uji coba
   - url: remotecareer.tech
@@ -20,7 +23,6 @@ paths:
     post:
       tags:
         - "Auth"
-        - "User"
       description: Create New User
       summary: register user
       requestBody:
@@ -44,7 +46,6 @@ paths:
   /login:
     post:
       tags:
-        - "User"
         - "Auth"
       description: Login to the System
       summary: login user
@@ -71,22 +72,24 @@ paths:
                 $ref: "#/components/schemas/responseObject"
               example:
                 data:
-                  id: "1"
+                  id: 1
                   nama: Alif Muhamad Hafidz
                   username: alifmh123
                   email: alifmuhamadhafidz23@gmail.com
                   pp_path: "/path/alif.png"
+                  token : eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJ1c2VySUQiOjR9.QTZxERh4CwC_UnL_eJvTi_A_qdLeBZ-IjR4nqoxjodk
                 message: "login success"
+                
         400:
           $ref: "#/components/responses/400"
         500:
           $ref: "#/components/responses/500"
-  /:username:
+  /users/{username}:
     get:
       tags:
         - "User"
-      description: get data user
-      summary: get data user
+      description: get user content
+      summary: get user content
       parameters:
         - name: username
           in: path
@@ -95,17 +98,95 @@ paths:
             type: string
       responses:
         200:
+          description: "success get user content"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+              example:
+                data :
+                  id : 1
+                  pp_path : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg"
+                  banner : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A40.jpg"
+                  name: Alif Muhamad Hafidz,
+                  username: alifmh123,
+                  bio : ALTA BE 14
+                  contents: [{
+                    pp_path : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg",
+                    username: alifmh123,
+                    img_path: "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg",
+                    caption: gunung semeru,
+                    created_at: 16-01-23 11:47,
+                    comments :[{
+                      pp_path : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg",
+                      username : alifmh123,
+                      text: hallo guys,
+                      created_at : 16-01-23 11:50
+                    },
+                    {
+                      pp_path: "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg",
+                      username: habib123,
+                      text: hai guys,
+                      created_at: 16-01-23 11:51
+                    }]
+                  },
+                  {
+                    pp_path : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg",
+                    username: alifmh123,
+                    img_path: "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg",
+                    caption : gunung gede,
+                    created_at: 16-01-23 11:37,
+                    comments :[{
+                      pp_path : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg",
+                      username : alifmh123,
+                      text: hallo guys,
+                      created_at : 16-01-23 11:38
+                    },
+                    {
+                      pp_path: "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg",
+                      username: habib123,
+                      text: hai guys,
+                      created_at: 16-01-23 11:39
+                    }]
+                  }
+                  ]
+                
+                message: "success get user content"
+        400:
+          $ref: "#/components/responses/400"
+        500:
+          $ref: "#/components/responses/500"
+  /users:
+    get:
+      tags:
+        - "User"
+      description: get data user
+      summary: get data user
+      security:
+        - JWTAuth: []
+      parameters:
+      - name: username
+        in: path
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
           description: success show profile
           content:
             application/json:
               schema:
                 type: object
               example:
-                pp_path: /path/alif.png
-                name: Alif Muhamad Hafidz
-                username: alifmh123
-                email: alifmuhamadhafidz23@gmail.com
-                bio: smile :)
+                data: 
+                  id : 1
+                  pp_path: "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg"
+                  banner : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg"
+                  name: Alif Muhamad Hafidz
+                  username: alifmh123
+                  email: alifmuhamadhafidz23@gmail.com
+                  bio: smile :)
+                message: success show user profile
         404:
           description: data not found
           content:
@@ -119,28 +200,31 @@ paths:
                   message: "data not found"
         500:
           $ref: "#/components/responses/500"
-  /users/edit:
-    patch:
+    put:
       tags:
         - "User"
       description: edit user profile
       summary: edit user profile
       security:
         - JWTAuth: []
-      parameters:
-        - name: token
-          in: path
-          required: true
-          schema:
-            type: string
       requestBody:
         required: true
         content:
+          multipart/form-data:
+              schema:
+                type: object
+                properties: 
+                  content:
+                    type: string              
+                  image:
+                    type: string
+                    format: binary
           application/json:
             schema:
               type: object
               example:
-                pp_path: "/path/alif.png"
+                pp_path: "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg"
+                banner : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg"
                 name: Alif Muhamad Hafidz
                 username: alifmh123
                 email: alifmuhamadhafidz23@gmail.com
@@ -152,10 +236,14 @@ paths:
               schema:
                 type: object
               example:
-                img_path: /pp/alif.png
-                name: Alif Muhamad Hafidz
-                username: alifmh123
-                email: alifmuhamadhafidz23@gmail.com
+                data:
+                  id: 1
+                  pp_path: "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg"
+                  banner : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg"
+                  name: Alif Muhamad Hafidz
+                  username: alifmh123
+                  email: alifmuhamadhafidz23@gmail.com
+                message: Succes Update Profile
         404:
           description: data not found
           content:
@@ -169,7 +257,6 @@ paths:
                   message: "data not found"
         500:
           $ref: "#/components/responses/500"
-  /users/deactivate:
     delete:
       tags:
         - "User"
@@ -177,12 +264,6 @@ paths:
       summary: deactivate user
       security:
         - JWTAuth: []
-      parameters:
-        - name: token
-          in: path
-          required: true
-          schema:
-            type: string
       responses:
         200:
           description: success deactivate
@@ -208,25 +289,31 @@ paths:
                   message: "data not found"
         500:
           $ref: "#/components/responses/500"
-  /contents/create:
+    
+  /contents:
     post:
       tags:
         - "Content"
-      description: hapus user
-      parameters:
-        - name: token
-          in: path
-          required: true
-          schema:
-            type: string
+      description: post content
+      security:
+        - JWTAuth: []
       requestBody:
         required: true
         content:
+          multipart/form-data:
+              schema:
+                type: object
+                properties: 
+                  content:
+                    type: string              
+                  image:
+                    type: string
+                    format: binary
           application/json:
             schema:
               type: object
               example:
-                img_path: content/post.jpg
+                img_path: "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A48.jpg"
                 caption: gunung semeru
       responses:
         201:
@@ -236,23 +323,184 @@ paths:
               schema:
                 $ref: "#/components/schemas/Content"
               example:
+                data:
+                  id : 1
+                  img_path: "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A48.jpg"
+                  caption: gunung semeru
+                  created_at: 16-01-23 11:47
                 message: "success post content"
         400:
           $ref: "#/components/responses/400"
         500:
           $ref: "#/components/responses/500"
-  /comments/create:
+    get:
+      tags:
+        - "Content"
+      description: get all content
+      summary: get all content
+      responses:
+        200:
+          description: "success get all content"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+              example:
+                data:
+                  [{
+                  id: 1,
+                  pp_path : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg",
+                  username: alifmh123,
+                  img_path: "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A48.jpg",
+                  caption: gunung semeru,
+                  created_at : 16-01-23 11:47,
+                  comments: [{
+                    pp_path : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg",
+                    username: alifmh123,
+                    text : hallo guys,
+                    created_at : 16-01-23 11:50
+                  },
+                  {
+                    pp_path : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A49.jpg",
+                    username: habib123,
+                    text : hai guys,
+                    created_at : 16-01-23 11:51
+                  }]}]
+                  
+                  
+                message: "success get all content"
+        400:
+          $ref: "#/components/responses/400"
+        500:
+          $ref: "#/components/responses/500"
+    delete:
+      tags:
+        - "Content"
+      description: Delete Content
+      summary: Delete Content
+      security:
+        - JWTAuth: []
+      responses:
+        200:
+          description: success delete content
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+              example:
+                message: "success delete content"
+        404:
+          description: data not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "data not found"
+        500:
+          $ref: "#/components/responses/500"
+  /contents/{id_content}:
+    get:
+      tags:
+        - "Content"
+      description: get all content
+      summary: get all content
+      responses:
+        200:
+          description: "success get all content"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+              example:
+                data:
+                  id: 1
+                  pp_path : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg"
+                  username: alifmh123
+                  img_path: "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A48.jpg"
+                  caption: gunung semeru
+                  created_at : 16-01-23 11:47
+                  comments: [{
+                    pp_path : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A47.jpg",
+                    username: alifmh123,
+                    text : hallo guys,
+                    created_at : 16-01-23 11:50
+                  },
+                  {
+                    pp_path : "https://incredible4.s3.amazonaws.com/2022-07-06%2006%3A40%3A49.jpg",
+                    username: habib123,
+                    text : hai guys,
+                    created_at : 16-01-23 11:51
+                  }]
+                  
+                  
+                message: "success get all content"
+        400:
+          $ref: "#/components/responses/400"
+        500:
+          $ref: "#/components/responses/500"
+    put:
+      tags:
+        - "Content"
+      description: edit user content
+      summary: edit user content
+      security:
+        - JWTAuth: []
+      parameters:
+        - name: id_content
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              example:
+                caption: gunung semeru
+      responses:
+        200:
+          description: "success edit user content"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Content"
+              example:
+                data:
+                  id : 1
+                  caption : gunung semeru
+                  updated_at : 16-01-23 13:38
+                message: "success edit user content"
+        404:
+          description: data not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                example:
+                  message: "data not found"
+        500:
+          $ref: "#/components/responses/500"
+  /comments/{id_content}:
     post:
       tags:
         - "Comment"
       description: insert new comment
       summary: insert new comment
+      security:
+        - JWTAuth: []
       parameters:
-        - name: token
-          in: path
-          required: true
-          schema:
-            type: string
         - name: id_content
           in: path
           required: true
@@ -282,18 +530,15 @@ paths:
           $ref: "#/components/responses/400"
         500:
           $ref: "#/components/responses/500"
-  /comments/delete:
+  /comments/{id_comment}:
     delete:
       tags:
         - "Comment"
       description: Delete Comment
       summary: Delete Comment
+      security:
+        - JWTAuth: []
       parameters:
-        - name: token
-          in: path
-          required: true
-          schema:
-            type: string
         - name: id_comment
           in: path
           required: true
@@ -324,134 +569,11 @@ paths:
                   message: "data not found"
         500:
           $ref: "#/components/responses/500"
-  /contents:
-    get:
-      tags:
-        - "Content"
-      description: get all content
-      summary: get all content
-      responses:
-        200:
-          description: "success get all content"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Content"
-              example:
-                message: "success get all content"
-        400:
-          $ref: "#/components/responses/400"
-        500:
-          $ref: "#/components/responses/500"
-  /contents/username:
-    get:
-      tags:
-        - "Content"
-      description: get user content
-      summary: get user content
-      responses:
-        200:
-          description: "success get user content"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Content"
-              example:
-                message: "success get user content"
-        400:
-          $ref: "#/components/responses/400"
-        500:
-          $ref: "#/components/responses/500"
-  /contents/edit:
-    patch:
-      tags:
-        - "Content"
-      description: edit user content
-      summary: edit user content
-      security:
-        - JWTAuth: []
-      parameters:
-        - name: token
-          in: path
-          required: true
-          schema:
-            type: string
-        - name: id_content
-          in: path
-          required: true
-          schema:
-            type: integer
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              example:
-                caption: gunung semeru
-      responses:
-        200:
-          description: "success edit user content"
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Content"
-              example:
-                message: "success edit user content"
-        404:
-          description: data not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                example:
-                  message: "data not found"
-        500:
-          $ref: "#/components/responses/500"
-  /contents/delete:
-    delete:
-      tags:
-        - "Content"
-      description: Delete Content
-      summary: Delete Content
-      parameters:
-        - name: token
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        200:
-          description: success delete content
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-              example:
-                message: "success delete content"
-        404:
-          description: data not found
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                example:
-                  message: "data not found"
-        500:
-          $ref: "#/components/responses/500"
+    
 
 components:
   securitySchemes:
-    JWTAuth:
+    JWTAuth:           
       type: http
       scheme: bearer
       bearerFormat: JWT
@@ -470,10 +592,6 @@ components:
           format: email
           example: alifmuhamadhafidz23@gmail.com
         password:
-          type: string
-          format: password
-          example: alif123
-        confirm_password:
           type: string
           format: password
           example: alif123
