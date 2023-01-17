@@ -25,6 +25,7 @@ type AllContents struct {
 	Username  string
 	Image     string
 	Caption   string
+	Owner     string
 	UpdatedAt time.Time
 	Comment   []data.Comments `gorm:"foreignkey:ContentID"`
 }
@@ -66,6 +67,25 @@ func ListToCore(data []Contents) []content.Core {
 	var dataCore []content.Core
 	for _, v := range data {
 		dataCore = append(dataCore, v.ModelsToCore())
+	}
+	return dataCore
+}
+
+func (dataModel *AllContents) AllModelsToCore() content.Core {
+	return content.Core{
+		ID:       dataModel.ID,
+		Avatar:   dataModel.Avatar,
+		Username: dataModel.Username,
+		Image:    dataModel.Image,
+		Caption:  dataModel.Caption,
+		Owner:    dataModel.Owner,
+	}
+}
+
+func AllListToCore(data []AllContents) []content.Core {
+	var dataCore []content.Core
+	for _, v := range data {
+		dataCore = append(dataCore, v.AllModelsToCore())
 	}
 	return dataCore
 }
