@@ -66,3 +66,31 @@ func (ch *contentHandle) ContentList() echo.HandlerFunc {
 		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "success get all content", ListCoreToResp(res)))
 	}
 }
+
+func (ch *contentHandle) Update() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		token := c.Get("user")
+
+		paramID := c.Param("id")
+
+		contentID, err := strconv.Atoi(paramID)
+
+		if err != nil {
+			log.Println("convert id error", err.Error())
+			return c.JSON(http.StatusBadGateway, "masukan input sesuai pola")
+		}
+
+		body := UpdateContentRequest{}
+		if err := c.Bind(&body); err != nil {
+			return c.JSON(http.StatusBadGateway, "invalid input")
+		}
+
+		res, err := ch.srv.Update(token, uint(contentID), *ToCore(body))
+
+		if err != nil {
+			return c.JSON(helper.PrintErrorResponse(err.Error()))
+		}
+
+		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "berhasil edit content", res))
+	}
+}
