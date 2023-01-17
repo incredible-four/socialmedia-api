@@ -2,6 +2,7 @@ package data
 
 import (
 	"incrediblefour/features/content"
+	"log"
 
 	"gorm.io/gorm"
 )
@@ -27,4 +28,14 @@ func (cd *contentData) Add(userID uint, newContent content.Core) (content.Core, 
 	newContent.ID = cnv.ID
 
 	return newContent, nil
+}
+
+func (cd *contentData) MyContent(userID uint) ([]content.Core, error) {
+	res := []Contents{}
+	if err := cd.db.Where("user_id = ?", userID).Find(&res).Error; err != nil {
+		log.Println("Get User Content by User ID query error : ", err.Error())
+		return []content.Core{}, err
+	}
+
+	return ListToCore(res), nil
 }
