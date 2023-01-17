@@ -94,3 +94,26 @@ func (ch *contentHandle) Update() echo.HandlerFunc {
 		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "berhasil edit content", res))
 	}
 }
+
+func (ch *contentHandle) Delete() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		token := c.Get("user")
+
+		paramID := c.Param("id")
+
+		contentID, err := strconv.Atoi(paramID)
+
+		if err != nil {
+			log.Println("convert id error", err.Error())
+			return c.JSON(http.StatusBadGateway, "masukan input sesuai pola")
+		}
+
+		err = ch.srv.Delete(token, uint(contentID))
+
+		if err != nil {
+			return c.JSON(helper.PrintErrorResponse(err.Error()))
+		}
+
+		return c.JSON(http.StatusAccepted, "berhasil delete content")
+	}
+}
