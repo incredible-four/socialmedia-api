@@ -13,10 +13,10 @@ type Core struct {
 
 type ContentHandler interface {
 	Add() echo.HandlerFunc
-	ContentList() echo.HandlerFunc
 	MyContent() echo.HandlerFunc
-	Update() echo.HandlerFunc
-	Delete() echo.HandlerFunc
+	// ContentList() echo.HandlerFunc
+	// Update() echo.HandlerFunc
+	// Delete() echo.HandlerFunc
 }
 
 type ContentService interface {

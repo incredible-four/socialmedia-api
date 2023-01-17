@@ -2,8 +2,10 @@ package handler
 
 import (
 	"incrediblefour/features/content"
+	"incrediblefour/helper"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -32,6 +34,25 @@ func (ch *contentHandle) Add() echo.HandlerFunc {
 			log.Println("error post content : ", err.Error())
 			return c.JSON(http.StatusInternalServerError, "unable to process the data")
 		}
-		return c.JSON(http.StatusCreated, ToResponse(res))
+		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "success post content", ToResponse(res)))
+	}
+}
+
+func (ch *contentHandle) MyContent() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		paramID := c.Param("id")
+		contentID, err := strconv.Atoi(paramID)
+		if err != nil {
+			log.Println("convert id error : ", err.Error())
+			return c.JSON(http.StatusBadRequest, map[string]interface{}{
+				"message": "invalid input",
+			})
+		}
+		res, err := ch.srv.MyContent(uint(contentID))
+		if err != nil {
+			return c.JSON(helper.PrintErrorResponse(err.Error()))
+		}
+
+		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "success get user content", ListCoreToResp(res)))
 	}
 }
