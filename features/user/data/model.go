@@ -14,6 +14,7 @@ type Users struct {
 	Banner string
 	Name string
 	Username string
+	Bio string
 	Email string
 	Password string
 	Contents []con.Contents `gorm:"foreignkey:UserID"`
@@ -27,6 +28,7 @@ func ToCore(data Users) user.Core {
 		Banner: data.Banner,
 		Name: data.Name,
 		Username: data.Username,
+		Bio: data.Bio,
 		Email: data.Email,
 		Password: data.Password,
 	}
@@ -39,6 +41,7 @@ func CoreToData(data user.Core) Users {
 		Banner: data.Banner,
 		Name: data.Name,
 		Username: data.Username,
+		Bio: data.Bio,
 		Email: data.Email,
 		Password: data.Password,
 	}

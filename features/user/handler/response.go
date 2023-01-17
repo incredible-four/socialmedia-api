@@ -8,19 +8,23 @@ import (
 
 type UserResponse struct {
 	ID uint `json:"id"`
+	Avatar string `json:"avatar"`
+	Banner string `json:"banner"`
 	Name string `json:"name"`
 	Username string `json:"username"`
+	Bio string `json:"bio"`
 	Email string `json:"email"`
-	Password string `json:"password"`
 }
 
 func ToResponse(data user.Core) UserResponse {
 	return UserResponse{
 		ID: data.ID,
+		Avatar: data.Avatar,
+		Banner: data.Banner,
 		Name: data.Name,
 		Username: data.Username,
+		Bio: data.Bio,
 		Email: data.Email,
-		Password: data.Password,
 	}
 }
 

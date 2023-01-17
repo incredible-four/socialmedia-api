@@ -52,7 +52,7 @@ Here's the list of endpoints we have agreed on :
 
 # 🔗 ERD
 
-![run](./EntityRelationshipDiagram.png)
+![run](./entity-relationship-diagram.png)
 # 💻 Built with
 
 - [Golang](https://go.dev/) : Programming Language
