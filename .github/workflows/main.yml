@@ -1,45 +1,44 @@
-# on: 
-#   push:
-#     branches:
-#       - main
-# jobs:
-#   build:
-#     name: Build
-#     runs-on: ubuntu-latest
-#     steps:
-#     - 
-#       name: Checkout
-#       uses: actions/checkout@v3
-#     -
-#       name: Login to Docker Hub
-#       uses: docker/login-action@v2
-#       with:
-#         username: ${{ secrets.DOCKER_USER }}
-#         password: ${{ secrets.DOCKER_TOKEN }}
-#     -
-#       name: Set up Docker Buildx
-#       uses: docker/setup-buildx-action@v2
-#     -
-#       name: Build and push
-#       uses: docker/build-push-action@v3
-#       with:
-#           context: .
-#           file: ./Dockerfile
-#           push: true
-#           tags: ${{ secrets.DOCKER_USER }}/four-img:latest          
-#     - name: executing remote ssh commands using password
-#       uses: appleboy/ssh-action@v0.1.7
-#       with:
-#         host: ${{ secrets.HOST }}
-#         username: ${{ secrets.USERNAME }}
-#         key: ${{ secrets.KEY }}
-#         port: ${{ secrets.PORT }}
-#         script: |
-#           touch works.txt
-#           echo "Great, it works! at $(date)" >> works.txt
-#           sudo chmod 777 /var/run/docker.sock
-#           docker rmi ${{ secrets.DOCKER_USER }}/four-img
-#           docker pull ${{ secrets.DOCKER_USER }}/four-img
-#           docker stop four-cont
-#           docker rm four-cont
-#           docker run --name four-cont -e DBUSER=${{ secrets.DBUSER }} -e DBPASS=${{ secrets.DBPASS }} -e DBHOST=${{ secrets.DBHOST }} -e DBPORT=${{ secrets.DBPORT }} -e DBNAME=${{ secrets.DBNAME }} -e JWTKEY=${{ secrets.JWTKEY }} -d -p 80:8000 four-img
+on:
+  release:
+    types: [published]
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    steps:
+    - 
+      name: Checkout
+      uses: actions/checkout@v3
+    -
+      name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USER }}
+        password: ${{ secrets.DOCKER_TOKEN }}
+    -
+      name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+    -
+      name: Build and push
+      uses: docker/build-push-action@v3
+      with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USER }}/four-img:latest          
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v0.1.7
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        key: ${{ secrets.KEY }}
+        port: ${{ secrets.PORT }}
+        script: |
+          touch works.txt
+          echo "Great, it works! at $(date)" >> works.txt
+          sudo chmod 777 /var/run/docker.sock
+          docker rmi ${{ secrets.DOCKER_USER }}/four-img
+          docker pull ${{ secrets.DOCKER_USER }}/four-img
+          docker stop four-cont
+          docker rm four-cont
+          docker run --name four-cont -e DBUSER=${{ secrets.DBUSER }} -e DBPASS=${{ secrets.DBPASS }} -e DBHOST=${{ secrets.DBHOST }} -e DBPORT=${{ secrets.DBPORT }} -e DBNAME=${{ secrets.DBNAME }} -e JWTKEY=${{ secrets.JWTKEY }} -d -p 80:8000 four-img
