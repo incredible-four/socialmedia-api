@@ -106,3 +106,20 @@ func (cs *contentSrv) Update(token interface{}, contentID uint, updatedContent c
 
 	return res, nil
 }
+
+func (cs *contentSrv) Delete(token interface{}, contentID uint) error {
+	id := helper.ExtractToken(token)
+
+	if id <= 0 {
+		return errors.New("data not found")
+	}
+
+	err := cs.data.Delete(uint(id), contentID)
+
+	if err != nil {
+		log.Println("delete query error", err.Error())
+		return err
+	}
+
+	return nil
+}
