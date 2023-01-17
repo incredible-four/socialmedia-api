@@ -24,3 +24,11 @@ type ContentService interface {
 	Update(token interface{}, contentID uint, updatedContent Core) (Core, error)
 	Delete(token interface{}, contentID uint) (Core, error)
 }
+
+type ContentData interface {
+	Add(userID uint, newContent Core) (Core, error)
+	ContentList() ([]Core, error)
+	MyContent(userID uint) ([]Core, error)
+	Update(userID uint, contentID uint, updatedContent Core) (Core, error)
+	Delete(userID uint, contentID uint) (Core, error)
+}
