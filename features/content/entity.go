@@ -3,10 +3,12 @@ package content
 import "github.com/labstack/echo/v4"
 
 type Core struct {
-	ID      uint
-	Image   string
-	Caption string
-	UserID  uint
+	ID       uint
+	Avatar   string
+	Username string
+	Image    string
+	Caption  string
+	UserID   uint
 }
 
 type ContentHandler interface {
@@ -27,8 +29,8 @@ type ContentService interface {
 
 type ContentData interface {
 	Add(userID uint, newContent Core) (Core, error)
-	ContentList() ([]Core, error)
+	// ContentList() ([]Core, error)
 	MyContent(userID uint) ([]Core, error)
-	Update(userID uint, contentID uint, updatedContent Core) (Core, error)
-	Delete(userID uint, contentID uint) (Core, error)
+	// Update(userID uint, contentID uint, updatedContent Core) (Core, error)
+	// Delete(userID uint, contentID uint) (Core, error)
 }
