@@ -92,7 +92,7 @@ func (uuc *userUseCase) Profile(token interface{}) (user.Core, error) {
 	return res, nil
 }
 
-func (uuc *userUseCase) Update(formHeader multipart.FileHeader, token interface{}, updatedProfile user.Core) (user.Core, error) {
+func (uuc *userUseCase) Update(formHeader multipart.FileHeader, formHeader2 multipart.FileHeader, token interface{}, updatedProfile user.Core) (user.Core, error) {
 	id := helper.ExtractToken(token)
 
 	if id <= 0 {
@@ -101,7 +101,7 @@ func (uuc *userUseCase) Update(formHeader multipart.FileHeader, token interface{
 
 	updatedProfile.ID = uint(id)
 
-	if formHeader.Size > 500000 {
+	if formHeader.Size > 5000000 {
 		return user.Core{}, errors.New("file size is too big")
 	}
 
@@ -120,8 +120,29 @@ func (uuc *userUseCase) Update(formHeader multipart.FileHeader, token interface{
 	if err != nil {
 		return user.Core{}, errors.New("server error")
 	}
+
 	updatedProfile.Avatar = uploadUrl
-	updatedProfile.Banner = uploadUrl
+
+	if formHeader2.Size > 5000000 {
+		return user.Core{}, errors.New("file size is too big")
+	}
+
+	formFile2, err := formHeader2.Open()
+	if err != nil {
+		return user.Core{}, errors.New("open formheader error")
+	}
+
+	if !helper.TypeFile(formFile2) {
+		return user.Core{}, errors.New("use jpg or png type file")
+	}
+	defer formFile2.Close()
+	formFile2, _ = formHeader2.Open()
+	uploadUrl2, err := helper.NewMediaUpload().BannerUpload(helper.Banner{Banner: formFile2})
+
+	if err != nil {
+		return user.Core{}, errors.New("server error")
+	}
+	updatedProfile.Banner = uploadUrl2
 
 	res, err := uuc.qry.Update(updatedProfile)
 	if err != nil {

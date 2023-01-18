@@ -31,7 +31,7 @@ type UserService interface {
 	Login(username, password string) (string, Core, error)
 	Profile(token interface{}) (Core, error)
 	// GetProfile(token interface{}) (Core, error)
-	Update(formHeader multipart.FileHeader, token interface{}, updatedProfile Core) (Core, error)
+	Update(formHeader multipart.FileHeader, formHeader2 multipart.FileHeader, token interface{}, updatedProfile Core) (Core, error)
 	Deactivate(token interface{}) error
 }
 
