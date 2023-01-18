@@ -2,6 +2,9 @@ package main
 
 import (
 	"incrediblefour/config"
+	cmtD "incrediblefour/features/comment/data"
+	cmtH "incrediblefour/features/comment/handler"
+	cmtS "incrediblefour/features/comment/services"
 	cntD "incrediblefour/features/content/data"
 	cntH "incrediblefour/features/content/handler"
 	cntS "incrediblefour/features/content/services"
@@ -28,6 +31,10 @@ func main() {
 	contentSrv := cntS.New(contentData)
 	contentHdl := cntH.New(contentSrv)
 
+	commentData := cmtD.New(db)
+	commentSrv := cmtS.New(commentData)
+	commentHdl := cmtH.New(commentSrv)
+
 	e.Pre(middleware.RemoveTrailingSlash())
 	e.Use(middleware.CORS())
 	e.Use(middleware.LoggerWithConfig(middleware.LoggerConfig{
@@ -50,6 +57,9 @@ func main() {
 	auth.POST("/contents", contentHdl.Add())
 	auth.PUT("/contents/:id", contentHdl.Update())
 	auth.DELETE("/contents/:id", contentHdl.Delete())
+	
+	auth.POST("/comments/:id", commentHdl.Add())
+	auth.DELETE("/comments/:id", commentHdl.Delete())
 
 	if err := e.Start(":8000"); err != nil {
 		log.Println(err.Error())
