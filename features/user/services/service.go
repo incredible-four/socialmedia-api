@@ -6,6 +6,7 @@ import (
 	"incrediblefour/features/user"
 	"incrediblefour/helper"
 	"log"
+	"mime/multipart"
 	"strings"
 	"time"
 
@@ -18,12 +19,12 @@ type userUseCase struct {
 }
 
 func New(ud user.UserData) user.UserService {
-	return &userUseCase {
+	return &userUseCase{
 		qry: ud,
 	}
 }
 
-func (uuc *userUseCase) Register(newUser user.Core) (error) {
+func (uuc *userUseCase) Register(newUser user.Core) error {
 	hashed, err := bcrypt.GenerateFromPassword([]byte(newUser.Password), bcrypt.DefaultCost)
 	if err != nil {
 		log.Println("generate bcrypt error : ", err.Error())
@@ -91,7 +92,7 @@ func (uuc *userUseCase) Profile(token interface{}) (user.Core, error) {
 	return res, nil
 }
 
-func (uuc *userUseCase) Update(token interface{}, updatedProfile user.Core) (user.Core, error) {
+func (uuc *userUseCase) Update(formHeader multipart.FileHeader, token interface{}, updatedProfile user.Core) (user.Core, error) {
 	id := helper.ExtractToken(token)
 
 	if id <= 0 {
@@ -99,6 +100,28 @@ func (uuc *userUseCase) Update(token interface{}, updatedProfile user.Core) (use
 	}
 
 	updatedProfile.ID = uint(id)
+
+	if formHeader.Size > 500000 {
+		return user.Core{}, errors.New("file size is too big")
+	}
+
+	formFile, err := formHeader.Open()
+	if err != nil {
+		return user.Core{}, errors.New("open formheader error")
+	}
+
+	if !helper.TypeFile(formFile) {
+		return user.Core{}, errors.New("use jpg or png type file")
+	}
+	defer formFile.Close()
+	formFile, _ = formHeader.Open()
+	uploadUrl, err := helper.NewMediaUpload().FileUpload(helper.File{File: formFile})
+
+	if err != nil {
+		return user.Core{}, errors.New("server error")
+	}
+	updatedProfile.Avatar = uploadUrl
+	updatedProfile.Banner = uploadUrl
 
 	res, err := uuc.qry.Update(updatedProfile)
 	if err != nil {
@@ -114,7 +137,7 @@ func (uuc *userUseCase) Update(token interface{}, updatedProfile user.Core) (use
 	return res, nil
 }
 
-func (uuc *userUseCase) Deactivate(token interface{}) (error) {
+func (uuc *userUseCase) Deactivate(token interface{}) error {
 	id := helper.ExtractToken(token)
 
 	if id <= 0 {
