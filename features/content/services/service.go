@@ -52,9 +52,9 @@ func (cs *contentSrv) Add(token interface{}, newContent content.Core) (content.C
 	return res, nil
 }
 
-func (cs *contentSrv) MyContent(contentID uint) ([]content.Core, error) {
+func (cs *contentSrv) ContentDetail(contentID uint) (content.Core, error) {
 
-	res, err := cs.data.MyContent(contentID)
+	res, err := cs.data.ContentDetail(contentID)
 	if err != nil {
 		msg := ""
 		if strings.Contains(err.Error(), "not found") {
@@ -62,7 +62,7 @@ func (cs *contentSrv) MyContent(contentID uint) ([]content.Core, error) {
 		} else {
 			msg = "unable to process the data"
 		}
-		return []content.Core{}, errors.New(msg)
+		return content.Core{}, errors.New(msg)
 	}
 	return res, nil
 }

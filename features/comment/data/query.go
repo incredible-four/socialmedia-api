@@ -58,3 +58,12 @@ func (cd *commentData) Delete(userID uint, commentID uint) (error) {
 
 	return nil
 }
+
+func (cd *commentData) CommentList() ([]comment.Core, error) {
+	res := []AllComments{}
+	if err := cd.db.Table("contents").Joins("JOIN users ON users.id = contents.user_id").Select("contents.id, contents.avatar, contents.username, contents.image, contents.caption, users.username as username").Find(&res).Error; err != nil {
+		log.Println("get all content query error : ", err.Error())
+		return []comment.Core{}, err
+	}
+	return AllListToCore(res), nil
+}

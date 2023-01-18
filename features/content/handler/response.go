@@ -1,6 +1,9 @@
 package handler
 
-import "incrediblefour/features/content"
+import (
+	"incrediblefour/features/content"
+	"time"
+)
 
 type ContentResponse struct {
 	ID       uint   `json:"id"`
@@ -8,7 +11,23 @@ type ContentResponse struct {
 	Username string `json:"username"`
 	Image    string `json:"image"`
 	Caption  string `json:"caption"`
-	UserID   uint   `json:"user_id"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+type AddResponse struct {
+	ID       uint   `json:"id"`
+	Image    string `json:"image"`
+	Caption  string `json:"caption"`
+	CreatedAt time.Time `json:"created_at"`
+}
+
+func ToAddResponse(data content.Core) AddResponse {
+	return AddResponse{
+		ID:       data.ID,
+		Image:    data.Image,
+		Caption:  data.Caption,
+		CreatedAt: time.Now(),
+	}
 }
 
 func ToResponse(data content.Core) ContentResponse {
@@ -18,7 +37,6 @@ func ToResponse(data content.Core) ContentResponse {
 		Username: data.Username,
 		Image:    data.Image,
 		Caption:  data.Caption,
-		UserID:   data.UserID,
 	}
 }
 
@@ -29,7 +47,6 @@ func CoresToResponse(dataCore content.Core) ContentResponse {
 		Username: dataCore.Username,
 		Image:    dataCore.Image,
 		Caption:  dataCore.Caption,
-		UserID:   dataCore.UserID,
 	}
 }
 

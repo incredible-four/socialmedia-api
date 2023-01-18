@@ -34,11 +34,11 @@ func (ch *contentHandle) Add() echo.HandlerFunc {
 			log.Println("error post content : ", err.Error())
 			return c.JSON(http.StatusInternalServerError, "unable to process the data")
 		}
-		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "success post content", ToResponse(res)))
+		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "success post content", ToAddResponse(res)))
 	}
 }
 
-func (ch *contentHandle) MyContent() echo.HandlerFunc {
+func (ch *contentHandle) ContentDetail() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		paramID := c.Param("id")
 		contentID, err := strconv.Atoi(paramID)
@@ -48,12 +48,12 @@ func (ch *contentHandle) MyContent() echo.HandlerFunc {
 				"message": "invalid input",
 			})
 		}
-		res, err := ch.srv.MyContent(uint(contentID))
+		res, err := ch.srv.ContentDetail(uint(contentID))
 		if err != nil {
 			return c.JSON(helper.PrintErrorResponse(err.Error()))
 		}
 
-		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "success get user content", ListCoreToResp(res)))
+		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "success get user content", ToResponse(res)))
 	}
 }
 
