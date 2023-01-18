@@ -2,6 +2,7 @@ package handler
 
 import (
 	"fmt"
+	"incrediblefour/dtos"
 	"incrediblefour/features/user"
 	"net/http"
 
@@ -13,7 +14,7 @@ type userControll struct {
 }
 
 func New(srv user.UserService) user.UserHandler {
-	return &userControll {
+	return &userControll{
 		srv: srv,
 	}
 }
@@ -68,6 +69,23 @@ func (uc *userControll) Profile() echo.HandlerFunc {
 
 func (uc *userControll) Update() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		formHeader, err := c.FormFile("file")
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, dtos.MediaDto{
+				StatusCode: http.StatusInternalServerError,
+				Message:    "error",
+				Data:       &echo.Map{"data": "Select a file to upload"},
+			})
+		}
+
+		formHeader2, err := c.FormFile("banner")
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, dtos.MediaDto{
+				StatusCode: http.StatusInternalServerError,
+				Message:    "error",
+				Data:       &echo.Map{"data": "Select a file to upload"},
+			})
+		}
 		token := c.Get("user")
 
 		input := UpdateRequest{}
@@ -75,7 +93,7 @@ func (uc *userControll) Update() echo.HandlerFunc {
 			return c.JSON(http.StatusBadRequest, "Please input correctly")
 		}
 
-		res, err := uc.srv.Update(token, *ToCore(input))
+		res, err := uc.srv.Update(*formHeader, *formHeader2, token, *ToCore(input))
 		if err != nil {
 			return c.JSON(PrintErrorResponse(err.Error()))
 		}
