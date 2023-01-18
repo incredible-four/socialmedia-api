@@ -5,6 +5,7 @@ import (
 	"incrediblefour/features/content"
 	"incrediblefour/helper"
 	"log"
+	"mime/multipart"
 	"strings"
 
 	"github.com/go-playground/validator/v10"
@@ -22,13 +23,12 @@ func New(c content.ContentData) content.ContentService {
 	}
 }
 
-func (cs *contentSrv) Add(token interface{}, newContent content.Core) (content.Core, error) {
+func (cs *contentSrv) Add(formHeader multipart.FileHeader, token interface{}, newContent content.Core) (content.Core, error) {
 	userID := helper.ExtractToken(token)
 
 	if userID <= 0 {
 		return content.Core{}, errors.New("user not found")
 	}
-
 	err := cs.vld.Struct(newContent)
 	if err != nil {
 		if _, ok := err.(*validator.InvalidValidationError); ok {
@@ -36,6 +36,28 @@ func (cs *contentSrv) Add(token interface{}, newContent content.Core) (content.C
 		}
 		return content.Core{}, errors.New("invalid input")
 	}
+
+	if formHeader.Size > 5000000 {
+		return content.Core{}, errors.New("file size is too big")
+	}
+
+	formFile, err := formHeader.Open()
+	if err != nil {
+		return content.Core{}, errors.New("open formheader error")
+	}
+
+	if !helper.TypeFile(formFile) {
+		return content.Core{}, errors.New("use jpg or png type file")
+	}
+	defer formFile.Close()
+	formFile, _ = formHeader.Open()
+	uploadUrl, err := helper.NewMediaUpload().ContentUpload(helper.Content{Content: formFile})
+
+	if err != nil {
+		return content.Core{}, errors.New("server error")
+	}
+
+	newContent.Image = uploadUrl
 
 	res, err := cs.data.Add(uint(userID), newContent)
 	if err != nil {

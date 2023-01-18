@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"incrediblefour/dtos"
 	"incrediblefour/features/content"
 	"incrediblefour/helper"
 	"log"
@@ -22,6 +23,16 @@ func New(cs content.ContentService) content.ContentHandler {
 
 func (ch *contentHandle) Add() echo.HandlerFunc {
 	return func(c echo.Context) error {
+
+		formHeader, err := c.FormFile("content")
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, dtos.MediaDto{
+				StatusCode: http.StatusInternalServerError,
+				Message:    "error",
+				Data:       &echo.Map{"data": "Select a file to upload"},
+			})
+		}
+
 		input := AddContentRequest{}
 		if err := c.Bind(&input); err != nil {
 			return c.JSON(http.StatusBadRequest, "invalid input")
@@ -29,7 +40,7 @@ func (ch *contentHandle) Add() echo.HandlerFunc {
 
 		cnv := ToCore(input)
 
-		res, err := ch.srv.Add(c.Get("user"), *cnv)
+		res, err := ch.srv.Add(*formHeader, c.Get("user"), *cnv)
 		if err != nil {
 			log.Println("error post content : ", err.Error())
 			return c.JSON(http.StatusInternalServerError, "unable to process the data")

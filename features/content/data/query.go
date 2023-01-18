@@ -106,3 +106,10 @@ func (cd *contentData) Delete(userID uint, contentID uint) error {
 
 	return nil
 }
+
+// func (cd *contentData) GetProfile(username string) (content.Core, error){
+// 	getUsername := Contents{}
+// 	if err := cd.db.Table("contents").Joins("JOIN users ON users.username = contents.user_id").Select("contents.id, users.avatar as avatar, users.username as username, contents.image, contents.caption, contents.created_at as CreatedAt").Find(&res).Error; err != nil{
+
+// 	}
+// }
