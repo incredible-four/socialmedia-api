@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	comment "incrediblefour/features/comment/data"
 	content "incrediblefour/features/content/data"
 	user "incrediblefour/features/user/data"
 	"log"
@@ -25,4 +26,5 @@ func InitDB(ac AppConfig) *gorm.DB {
 func Migrate(db *gorm.DB) {
 	db.AutoMigrate(user.Users{})
 	db.AutoMigrate(content.Contents{})
+	db.AutoMigrate(comment.Comments{})
 }
