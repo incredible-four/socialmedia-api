@@ -62,7 +62,8 @@ Here's the list of endpoints we have agreed on :
 - [GORM](https://gorm.io/) : ORM Library
 - [MySQL](https://gorm.io/) : Database Management System
 - [Docker](https://docker.com/) : Containerization
-- [Amazon EC2](https://aws.amazon.com/) : Cloud Server
+- [Amazon EC2](https://aws.amazon.com/) : Cloud server
+- [Amazon RDS](https://aws.amazon.com/) : Setup & manage Database
 - [Amazon S3](https://aws.amazon.com/) : Store and retrieve objects
 
 # 🛠️ Installation Steps
