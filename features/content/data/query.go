@@ -33,7 +33,7 @@ func (cd *contentData) Add(userID uint, newContent content.Core) (content.Core, 
 
 func (cd *contentData) ContentDetail(contentID uint) (content.Core, error) {
 	res := Contents{}
-	if err := cd.db.Table("contents").Joins("JOIN users ON users.id = contents.user_id").Select("contents.id, users.avatar as avatar, users.username as username, contents.image, contents.caption, contents.created_at").Where("contents.id = ?", contentID).Find(&res).Error; err != nil {
+	if err := cd.db.Table("contents").Joins("JOIN users ON users.id = contents.user_id").Select("contents.id, users.avatar as avatar, users.username as username, contents.image, contents.caption, contents.created_at as CreatedAt").Where("contents.id = ?", contentID).Find(&res).Error; err != nil {
 		log.Println("Get User Content by User ID query error : ", err.Error())
 		return content.Core{}, err
 	}
@@ -47,7 +47,7 @@ func (cd *contentData) ContentDetail(contentID uint) (content.Core, error) {
 
 func (cd *contentData) ContentList() ([]content.Core, error) {
 	res := []AllContents{}
-	if err := cd.db.Table("contents").Joins("JOIN users ON users.id = contents.user_id").Select("contents.id, users.avatar as avatar, users.username as username, contents.image, contents.caption, contents.created_at").Find(&res).Error; err != nil {
+	if err := cd.db.Table("contents").Joins("JOIN users ON users.id = contents.user_id").Select("contents.id, users.avatar as avatar, users.username as username, contents.image, contents.caption, contents.created_at as CreatedAt").Find(&res).Error; err != nil {
 		log.Println("get all content query error : ", err.Error())
 		return []content.Core{}, err
 	}
