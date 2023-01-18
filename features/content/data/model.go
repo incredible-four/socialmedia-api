@@ -4,8 +4,6 @@ import (
 	"incrediblefour/features/comment/data"
 	"incrediblefour/features/content"
 
-	"time"
-
 	"gorm.io/gorm"
 )
 
@@ -25,8 +23,6 @@ type AllContents struct {
 	Username  string
 	Image     string
 	Caption   string
-	Owner     string
-	UpdatedAt time.Time
 	Comment   []data.Comments `gorm:"foreignkey:ContentID"`
 }
 
@@ -78,7 +74,6 @@ func (dataModel *AllContents) AllModelsToCore() content.Core {
 		Username: dataModel.Username,
 		Image:    dataModel.Image,
 		Caption:  dataModel.Caption,
-		Owner:    dataModel.Owner,
 	}
 }
 

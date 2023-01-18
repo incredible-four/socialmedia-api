@@ -4,6 +4,8 @@ import "github.com/labstack/echo/v4"
 
 type Core struct {
 	ID uint
+	Avatar string
+	Username string
 	Text string
 	UserID uint
 	ContentID uint

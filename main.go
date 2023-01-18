@@ -44,7 +44,7 @@ func main() {
 	e.POST("/register", userHdl.Register())
 	e.POST("/login", userHdl.Login())
 
-	e.GET("/contents/:id", contentHdl.MyContent())
+	e.GET("/contents/:id", contentHdl.ContentDetail())
 	e.GET("/contents", contentHdl.ContentList())
 
 	auth := e.Group("")
@@ -60,7 +60,7 @@ func main() {
 	
 	auth.POST("/comments/:id", commentHdl.Add())
 	auth.DELETE("/comments/:id", commentHdl.Delete())
-
+	
 	if err := e.Start(":8000"); err != nil {
 		log.Println(err.Error())
 	}

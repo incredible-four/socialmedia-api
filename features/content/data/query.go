@@ -31,19 +31,23 @@ func (cd *contentData) Add(userID uint, newContent content.Core) (content.Core, 
 	return newContent, nil
 }
 
-func (cd *contentData) MyContent(contentID uint) ([]content.Core, error) {
-	res := []Contents{}
-	if err := cd.db.Where("id = ?", contentID).Find(&res).Error; err != nil {
+func (cd *contentData) ContentDetail(contentID uint) (content.Core, error) {
+	res := Contents{}
+	if err := cd.db.Table("contents").Joins("JOIN users ON users.id = contents.user_id").Select("contents.id, users.avatar as avatar, users.username as username, contents.image, contents.caption, contents.created_at").Where("contents.id = ?", contentID).Find(&res).Error; err != nil {
 		log.Println("Get User Content by User ID query error : ", err.Error())
-		return []content.Core{}, err
+		return content.Core{}, err
 	}
 
-	return ListToCore(res), nil
+	if res.Image == "" {
+		return content.Core{}, errors.New("Data not found")
+	}
+
+	return ToCore(res), nil
 }
 
 func (cd *contentData) ContentList() ([]content.Core, error) {
 	res := []AllContents{}
-	if err := cd.db.Table("contents").Joins("JOIN users ON users.id = contents.user_id").Select("contents.id, contents.avatar, contents.username, contents.image, contents.caption, users.username as Owner").Find(&res).Error; err != nil {
+	if err := cd.db.Table("contents").Joins("JOIN users ON users.id = contents.user_id").Select("contents.id, users.avatar as avatar, users.username as username, contents.image, contents.caption, contents.created_at").Find(&res).Error; err != nil {
 		log.Println("get all content query error : ", err.Error())
 		return []content.Core{}, err
 	}
