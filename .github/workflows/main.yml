@@ -42,4 +42,4 @@ jobs:
           docker pull ${{ secrets.DOCKER_USER }}/${{ secrets.IMAGE }}
           docker stop ${{ secrets.CONTAINER }}
           docker rm ${{ secrets.CONTAINER }}
-          docker run --name ${{ secrets.CONTAINER }} -e DBUSER=${{ secrets.DBUSER }} -e DBPASS=${{ secrets.DBPASS }} -e DBHOST=${{ secrets.DBHOST }} -e DBPORT=${{ secrets.DBPORT }} -e DBNAME=${{ secrets.DBNAME }} -e JWTKEY=${{ secrets.JWTKEY }} -d -p 80:8000 ${{ secrets.IMAGE }}
+          docker run --name ${{ secrets.CONTAINER }} -e DBUSER=${{ secrets.DBUSER }} -e DBPASS=${{ secrets.DBPASS }} -e DBHOST=${{ secrets.DBHOST }} -e DBPORT=${{ secrets.DBPORT }} -e DBNAME=${{ secrets.DBNAME }} -e JWTKEY=${{ secrets.JWTKEY }} -d -p 80:8000 ${{ secrets.DOCKER_USER }}/${{ secrets.IMAGE }}
