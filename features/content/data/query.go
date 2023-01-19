@@ -107,12 +107,36 @@ func (cd *contentData) Delete(userID uint, contentID uint) error {
 	return nil
 }
 
-func (cd *contentData) GetProfile(username string) ([]content.Core, error) {
-	res := []Contents{}
-	if err := cd.db.Table("contents").Joins("JOIN users ON users.id = contents.user_id").Select("users.id, users.avatar as avatar, users.username as username, contents.image, contents.caption, contents.user_id, contents.created_at").Where("users.username = ?", username).Find(&res).Error; err != nil {
-		log.Println("Get User Content by username query error : ", err.Error())
-		return []content.Core{}, err
+func (cd *contentData) GetProfile(username string) (interface{}, error) {
+	// res := []Contents{}
+	// if err := cd.db.Table("contents").Joins("JOIN users ON users.id = contents.user_id").Select("users.id, users.avatar as avatar, users.username as username, contents.image, contents.caption, contents.user_id, contents.created_at").Where("users.username = ?", username).Find(&res).Error; err != nil {
+	// 	log.Println("Get User Content by username query error : ", err.Error())
+	// 	return []content.Core{}, err
+	// }
+
+	// return ListToCore(res), nil
+	res := map[string]interface{}{}
+
+	if err := cd.db.Raw("SELECT users.id, users.avatar as pp_path, users.banner, users.name, users.username, users.bio from users where username = ?", username).Find(&res).Error; err != nil {
+		log.Println("get user content by username query error : ", err.Error())
+		return nil, err
 	}
 
-	return ListToCore(res), nil
+	resultContent := map[string]interface{}{}
+	resContent := Contents{}
+
+	if err := cd.db.Raw("SELECT cn.id, cn.image, cn.caption, u.username, u.avatar, c.text FROM contents cn JOIN users u1 ON u1.id = cn.user_id JOIN comments c ON c.content_id = cn.id JOIN users u ON u.id = c.user_id ").Where("u1.username = ?", username).Find(&resContent).Error; err != nil {
+		log.Println("get user content by username query error : ", err.Error())
+		return nil, err
+	}
+
+	resultContent["id"] = resContent.ID
+	resultContent["avatar"] = resContent.Avatar
+	resultContent["username"] = resContent.Username
+	resultContent["image"] = resContent.Image
+	resultContent["caption"] = resContent.Caption
+	resultContent["user_id"] = resContent.UserID
+
+	return resultContent, nil
+
 }
