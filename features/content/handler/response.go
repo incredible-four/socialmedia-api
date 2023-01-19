@@ -59,12 +59,3 @@ func ListCoreToResp(data []content.Core) []ContentResponse {
 	}
 	return dataResp
 }
-
-func InterfaceCoreToResp(data []content.Core) interface{} {
-	var interfaceDataResp []interface{}
-	for _, v := range data {
-		interfaceDataResp = append(interfaceDataResp, CoresToResponse(v))
-	}
-
-	return interfaceDataResp
-}
