@@ -40,8 +40,8 @@ func TypeFile(test multipart.File) bool {
 	return false
 }
 
-type File struct {
-	File multipart.File `json:"file,omitempty" validate:"required"`
+type Avatar struct {
+	Avatar multipart.File `json:"avatar,omitempty" validate:"required"`
 	// Banner multipart.File `json:"banner,omitempty" validate:"required"`
 }
 
@@ -62,7 +62,7 @@ var (
 )
 
 type mediaUpload interface {
-	FileUpload(file File) (string, error)
+	AvatarUpload(avatar Avatar) (string, error)
 	RemoteUpload(url Url) (string, error)
 	BannerUpload(banner Banner) (string, error)
 	ContentUpload(content Content) (string, error)
@@ -118,15 +118,15 @@ func (*media) ContentUpload(content Content) (string, error) {
 	return uploadUrl, nil
 }
 
-func (*media) FileUpload(file File) (string, error) {
+func (*media) AvatarUpload(avatar Avatar) (string, error) {
 	//validate
-	err := validate.Struct(file)
+	err := validate.Struct(avatar)
 	if err != nil {
 		return "", err
 	}
 
 	//upload
-	uploadUrl, err := ImageUploadHelper(file.File)
+	uploadUrl, err := ImageUploadHelper(avatar.Avatar)
 	if err != nil {
 		return "", err
 	}

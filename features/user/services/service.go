@@ -115,7 +115,7 @@ func (uuc *userUseCase) Update(formHeader multipart.FileHeader, formHeader2 mult
 	}
 	defer formFile.Close()
 	formFile, _ = formHeader.Open()
-	uploadUrl, err := helper.NewMediaUpload().FileUpload(helper.File{File: formFile})
+	uploadUrl, err := helper.NewMediaUpload().AvatarUpload(helper.Avatar{Avatar: formFile})
 
 	if err != nil {
 		return user.Core{}, errors.New("server error")
