@@ -35,14 +35,16 @@ func (_m *ContentData) Add(userID uint, newContent content.Core) (content.Core, 
 }
 
 // ContentDetail provides a mock function with given fields: contentID
-func (_m *ContentData) ContentDetail(contentID uint) (content.Core, error) {
+func (_m *ContentData) ContentDetail(contentID uint) (interface{}, error) {
 	ret := _m.Called(contentID)
 
-	var r0 content.Core
-	if rf, ok := ret.Get(0).(func(uint) content.Core); ok {
+	var r0 interface{}
+	if rf, ok := ret.Get(0).(func(uint) interface{}); ok {
 		r0 = rf(contentID)
 	} else {
-		r0 = ret.Get(0).(content.Core)
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(interface{})
+		}
 	}
 
 	var r1 error
@@ -93,15 +95,15 @@ func (_m *ContentData) Delete(userID uint, contentID uint) error {
 }
 
 // GetProfile provides a mock function with given fields: username
-func (_m *ContentData) GetProfile(username string) ([]content.Core, error) {
+func (_m *ContentData) GetProfile(username string) (interface{}, error) {
 	ret := _m.Called(username)
 
-	var r0 []content.Core
-	if rf, ok := ret.Get(0).(func(string) []content.Core); ok {
+	var r0 interface{}
+	if rf, ok := ret.Get(0).(func(string) interface{}); ok {
 		r0 = rf(username)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]content.Core)
+			r0 = ret.Get(0).(interface{})
 		}
 	}
 
