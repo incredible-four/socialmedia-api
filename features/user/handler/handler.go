@@ -69,7 +69,7 @@ func (uc *userControll) Profile() echo.HandlerFunc {
 
 func (uc *userControll) Update() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		formHeader, err := c.FormFile("file")
+		formHeader, err := c.FormFile("avatar")
 		if err != nil {
 			return c.JSON(http.StatusInternalServerError, dtos.MediaDto{
 				StatusCode: http.StatusInternalServerError,
