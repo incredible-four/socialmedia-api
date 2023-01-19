@@ -1,6 +1,17 @@
-# Description
+# 📑 Description
 
-It's the backend system for our [social media app project](https://github.com/incredible-four/socialmedia-app). User can post contents and comment on other's posts. This RESTful API was developed by using Golang and written based on Clean Architecture principles with Echo as web framework, GORM as ORM, MySQL as DBMS, etc.
+It's the backend system for our [social media app project](https://github.com/incredible-four/socialmedia-app) (FE Repository)
+
+This RESTful API was developed by using Golang and written based on Clean Architecture principles. Built with Echo as web framework, GORM as ORM, MySQL as DBMS, etc.
+
+# About the Project
+
+1. User can register and login
+2. User can update its profile (avatar, banner, name, username, email)
+3. User can deactivate its own account
+4. User can CRUD contents
+5. User can CRUD comments on any content
+6. and many more
 
 # ⚡Features
 - CRUD (Users, Contents, Comments)
@@ -11,7 +22,7 @@ It's the backend system for our [social media app project](https://github.com/in
 
 # 🔥 Open API
 
-Here's the list of endpoints we have agreed on :
+Simply [click here](https://app.swaggerhub.com/apis-docs/ALIFMUHAMADHAFIDZ23/SocialMedia-Group4/1.0.0) to see the details of endpoints we have agreed on.
 
 <details>
   <summary>👶 Users</summary>
@@ -50,6 +61,8 @@ Here's the list of endpoints we have agreed on :
   
 </details>
 
+
+
 # 🔗 ERD
 
 ![run](./entity-relationship-diagram.png)
@@ -67,9 +80,31 @@ Here's the list of endpoints we have agreed on :
 
 # 🛠️ Installation Steps
 
-[ Available soon ]
+- Clone it
 
-# 👑 Author
+```
+$ git clone https://github.com/incredible-four/socialmedia-api/
+```
+
+- Go to directory
+
+```
+$ cd socialmedia-api
+```
+
+- Create a new database
+
+- Rename `local.env.example` to `local.env`
+- Rename `cloud.env.example` to `cloud.env`
+- Adjust `local.env` & `cloud.env`as your environment settings
+
+- Run the project
+
+```
+$ go run .
+```
+
+# 🤖 Author
 
 - [Alif Muhamad Hafidz](https://github.com/AlifMuhamadHafidz)
 - [Muhammad Habibullah](https://github.com/hebobibun)
