@@ -108,7 +108,7 @@ $ go run .
 
 - Alif Muhamad Hafidz :
 
-    <a target="_blank" href="https://github.com/AlifMuhamadHafidz"><img style="vertical-align: middle;" alt="Alif" src="https://raw.githubusercontent.com/hebobibun/hebobibun/main/assets/Alif.png" width="85"></a>&ensp;
+    <a target="_blank" href="https://github.com/AlifMuhamadHafidz"><img style="vertical-align: middle;" alt="Alif" src="https://raw.githubusercontent.com/hebobibun/hebobibun/main/assets/Alif.png" width="83"></a>&ensp;
 
 - Muhammad Habibullah :
 
