@@ -76,7 +76,7 @@ func (uuc *userUseCase) Login(username, password string) (string, user.Core, err
 func (uuc *userUseCase) Profile(token interface{}) (user.Core, error) {
 	id := helper.ExtractToken(token)
 	if id <= 0 {
-		return user.Core{}, errors.New("Data not found")
+		return user.Core{}, errors.New("user not found")
 	}
 
 	res, err := uuc.qry.Profile(uint(id))
