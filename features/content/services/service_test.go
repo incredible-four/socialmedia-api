@@ -159,3 +159,84 @@ func TestContentDetail(t *testing.T) {
 	})
 }
 
+func TestContentList(t *testing.T) {
+	repo := mocks.NewContentData(t)
+
+	t.Run("Success show content detail", func(t *testing.T) {
+		resData := []content.Core{}
+		repo.On("ContentList").Return(resData, nil).Once()
+
+		srv := New(repo)
+		res, err := srv.ContentList()
+
+		assert.Nil(t, err)
+		assert.NotEmpty(t, res)
+		repo.AssertExpectations(t)
+	})
+
+	t.Run("Data not found", func(t *testing.T) {
+		repo.On("ContentList").Return([]content.Core{}, errors.New("Data not found")).Once()
+		srv := New(repo)
+
+		res, err := srv.ContentList()
+
+		assert.NotNil(t, err)
+		assert.ErrorContains(t, err, "found")
+		assert.Equal(t, res, content.Core{})
+		repo.AssertExpectations(t)
+	})
+
+	t.Run("Server problem", func(t *testing.T) {
+		repo.On("ContentList").Return([]content.Core{}, errors.New("There is a problem with the server")).Once()
+		srv := New(repo)
+
+		res, err := srv.ContentList()
+
+		assert.NotNil(t, err)
+		assert.ErrorContains(t, err, "server")
+		assert.Equal(t, res, []content.Core{})
+		repo.AssertExpectations(t)
+	})
+}
+
+func TestGetProfile(t *testing.T) {
+	repo := mocks.NewContentData(t)
+
+	t.Run("Success show a user profile", func(t *testing.T) {
+		resData := content.Core{ID: uint(1), Avatar: "ava.png", Username: "habib", Image: "bajo.png", Caption: "berangkaaat"}
+		repo.On("GetProfile", "habib").Return(resData, nil).Once()
+		
+		srv := New(repo)
+		res, err := srv.ContentDetail(uint(1))
+
+		assert.Nil(t, err)
+		assert.NotEmpty(t, res)
+		repo.AssertExpectations(t)
+	})
+
+	t.Run("Data not found", func(t *testing.T) {
+		repo.On("GetProfile", "habib").Return(nil, errors.New("Data not found")).Once()
+		srv := New(repo)
+
+		res, err := srv.GetProfile("habib")
+
+		assert.NotNil(t, err)
+		assert.ErrorContains(t, err, "found")
+		assert.Equal(t, res,  nil)
+		repo.AssertExpectations(t)
+	})
+
+	t.Run("Server problem", func(t *testing.T) {
+		repo.On("GetProfile", "habib").Return(nil, errors.New("Unable to process the data")).Once()
+		srv := New(repo)
+
+		res, err := srv.GetProfile("habib")
+
+		assert.NotNil(t, err)
+		assert.ErrorContains(t, err, "data")
+		assert.Equal(t, res, nil)
+		repo.AssertExpectations(t)
+	})
+}
+
+
