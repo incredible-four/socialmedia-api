@@ -6,47 +6,49 @@ import (
 )
 
 type ContentResponse struct {
-	ID       uint   `json:"id"`
-	Avatar   string `json:"avatar"`
-	Username string `json:"username"`
-	Image    string `json:"image"`
-	Caption  string `json:"caption"`
+	ID        uint      `json:"id"`
+	Avatar    string    `json:"avatar"`
+	Username  string    `json:"username"`
+	Image     string    `json:"image"`
+	Caption   string    `json:"caption"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
 type AddResponse struct {
-	ID       uint   `json:"id"`
-	Image    string `json:"image"`
-	Caption  string `json:"caption"`
+	ID        uint      `json:"id"`
+	Image     string    `json:"image"`
+	Caption   string    `json:"caption"`
 	CreatedAt time.Time `json:"created_at"`
 }
 
 func ToAddResponse(data content.Core) AddResponse {
 	return AddResponse{
-		ID:       data.ID,
-		Image:    data.Image,
-		Caption:  data.Caption,
+		ID:        data.ID,
+		Image:     data.Image,
+		Caption:   data.Caption,
 		CreatedAt: time.Now(),
 	}
 }
 
 func ToResponse(data content.Core) ContentResponse {
 	return ContentResponse{
-		ID:       data.ID,
-		Avatar:   data.Avatar,
-		Username: data.Username,
-		Image:    data.Image,
-		Caption:  data.Caption,
+		ID:        data.ID,
+		Avatar:    data.Avatar,
+		Username:  data.Username,
+		Image:     data.Image,
+		Caption:   data.Caption,
+		CreatedAt: data.CreatedAt,
 	}
 }
 
 func CoresToResponse(dataCore content.Core) ContentResponse {
 	return ContentResponse{
-		ID:       dataCore.ID,
-		Avatar:   dataCore.Avatar,
-		Username: dataCore.Username,
-		Image:    dataCore.Image,
-		Caption:  dataCore.Caption,
+		ID:        dataCore.ID,
+		Avatar:    dataCore.Avatar,
+		Username:  dataCore.Username,
+		Image:     dataCore.Image,
+		Caption:   dataCore.Caption,
+		CreatedAt: dataCore.CreatedAt,
 	}
 }
 
