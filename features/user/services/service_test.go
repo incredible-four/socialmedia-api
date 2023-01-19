@@ -5,6 +5,7 @@ import (
 	"incrediblefour/features/user"
 	"incrediblefour/helper"
 	"incrediblefour/mocks"
+	"mime/multipart"
 	"testing"
 
 	"github.com/golang-jwt/jwt"
@@ -16,7 +17,7 @@ func TestRegister(t *testing.T) {
 	repo := mocks.NewUserData(t)
 
 	t.Run("Success register", func(t *testing.T) {
-		inputData := user.Core{Name: "habib", Email: "habib@habib.com", Username: "Bekasi",Password: "habib123"}
+		inputData := user.Core{Name: "habib", Email: "habib@habib.com", Username: "Bekasi", Password: "habib123"}
 		repo.On("Register", mock.Anything).Return(nil).Once()
 
 		srv := New(repo)
@@ -27,48 +28,48 @@ func TestRegister(t *testing.T) {
 	})
 
 	t.Run("Server problem", func(t *testing.T) {
-		inputData := user.Core{Name: "habib", Email: "habib@habib.com", Username: "Bekasi",Password: "habib123"}
+		inputData := user.Core{Name: "habib", Email: "habib@habib.com", Username: "Bekasi", Password: "habib123"}
 		repo.On("Register", mock.Anything).Return(errors.New("There is a problem with the server")).Once()
 
 		srv := New(repo)
 		err := srv.Register(inputData)
-		
+
 		assert.NotNil(t, err)
 		assert.ErrorContains(t, err, "server")
 		repo.AssertExpectations(t)
 	})
 
 	t.Run("Data already exist", func(t *testing.T) {
-		inputData := user.Core{Name: "habib", Email: "habib@habib.com", Username: "Bekasi",Password: "habib123"}
+		inputData := user.Core{Name: "habib", Email: "habib@habib.com", Username: "Bekasi", Password: "habib123"}
 		repo.On("Register", mock.Anything).Return(errors.New("duplicated")).Once()
 
 		srv := New(repo)
 		err := srv.Register(inputData)
-		
+
 		assert.NotNil(t, err)
 		assert.ErrorContains(t, err, "exist")
 		repo.AssertExpectations(t)
 	})
 
 	t.Run("Password error", func(t *testing.T) {
-		inputData := user.Core{Name: "habib", Email: "habib@habib.com", Username: "Bekasi",Password: "habib123"}
+		inputData := user.Core{Name: "habib", Email: "habib@habib.com", Username: "Bekasi", Password: "habib123"}
 		repo.On("Register", mock.Anything).Return(errors.New("Unable to process password")).Once()
 
 		srv := New(repo)
 		err := srv.Register(inputData)
-		
+
 		assert.NotNil(t, err)
 		assert.ErrorContains(t, err, "server")
 		repo.AssertExpectations(t)
 	})
 
 	t.Run("Query error", func(t *testing.T) {
-		inputData := user.Core{Name: "habib", Email: "habib@habib.com", Username: "Bekasi",Password: "habib123"}
+		inputData := user.Core{Name: "habib", Email: "habib@habib.com", Username: "Bekasi", Password: "habib123"}
 		repo.On("Register", mock.Anything).Return(errors.New("query")).Once()
 
 		srv := New(repo)
 		err := srv.Register(inputData)
-		
+
 		assert.NotNil(t, err)
 		assert.ErrorContains(t, err, "server")
 		repo.AssertExpectations(t)
@@ -182,6 +183,45 @@ func TestProfile(t *testing.T) {
 		assert.NotNil(t, err)
 		assert.ErrorContains(t, err, "server")
 		assert.Equal(t, uint(0), res.ID)
+		repo.AssertExpectations(t)
+	})
+}
+
+// func getFileHeader(file *os.File) (*multipart.FileHeader, *multipart.FileHeader, error) {
+// 	// get file size
+// 	fileStat, err := file.Stat()
+// 	if err != nil {
+// 		return nil, nil, err
+// 	}
+
+// 	// create *multipart.FileHeader
+// 	return &multipart.FileHeader{
+// 		Filename: fileStat.Name(),
+// 		Size:     fileStat.Size(),
+// 	}, nil, nil
+// }
+
+func TestUpdate(t *testing.T) {
+	repo := mocks.NewUserData(t)
+	hashed, _ := helper.GeneratePassword("alif123")
+	var a, b multipart.FileHeader
+	t.Run("success update profile", func(t *testing.T) {
+		inputData := user.Core{ID: uint(1), Avatar: "https://res.cloudinary.com/dg5psgujz/image/upload/v1674109694/incredible4/wkoznm8ujw5l66vyqg2i.jpg", Banner: "https://res.cloudinary.com/dg5psgujz/image/upload/v1674109696/incredible4/hk5vhzorzxagspio0hue.png", Bio: "BE 14", Name: "Alif Muhamad Hafidz", Email: "alif@alif.com", Username: "alif", Password: hashed}
+		resData := user.Core{ID: uint(1), Avatar: "https://res.cloudinary.com/dg5psgujz/image/upload/v1674109694/incredible4/wkoznm8ujw5l66vyqg2i.jpg", Banner: "https://res.cloudinary.com/dg5psgujz/image/upload/v1674109696/incredible4/hk5vhzorzxagspio0hue.png", Bio: "BE 14", Name: "Alif Muhamad Hafidz", Email: "alif@alif.com", Username: "alif"}
+		repo.On("Update", uint(1), inputData).Return(resData, nil).Once()
+
+		srv := New(repo)
+
+		_, token := helper.GenerateJWT(1)
+		pToken := token.(*jwt.Token)
+		pToken.Valid = true
+		inputData.Password = hashed
+		res, err := srv.Update(a, b, pToken, inputData)
+		assert.Nil(t, err)
+		assert.Equal(t, resData.ID, res.ID)
+		assert.Equal(t, resData.Name, res.Name)
+		assert.Equal(t, resData.Email, res.Email)
+		assert.Equal(t, resData.Bio, res.Bio)
 		repo.AssertExpectations(t)
 	})
 }
