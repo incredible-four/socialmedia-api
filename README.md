@@ -106,8 +106,13 @@ $ go run .
 
 # 🤖 Author
 
-- [Alif Muhamad Hafidz](https://github.com/AlifMuhamadHafidz)
-- [Muhammad Habibullah](https://github.com/hebobibun)
+- Alif Muhamad Hafidz :
+
+    <a target="_blank" href="https://github.com/AlifMuhamadHafidz"><img style="vertical-align: middle;" alt="Alif" src="https://raw.githubusercontent.com/hebobibun/hebobibun/main/assets/Alif.png" width="85"></a>&ensp;
+
+- Muhammad Habibullah :
+
+    <a target="_blank" href="https://github.com/hebobibun"><img style="vertical-align: middle;" alt="Habib" src="https://raw.githubusercontent.com/hebobibun/hebobibun/main/assets/Habib.png" width="100"></a>&ensp;
 
 
 
