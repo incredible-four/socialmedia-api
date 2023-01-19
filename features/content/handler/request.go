@@ -3,12 +3,12 @@ package handler
 import "incrediblefour/features/content"
 
 type AddContentRequest struct {
-	Image   string `json:"image"`
-	Caption string `json:"caption"`
+	Image   string `json:"image" form:"image"`
+	Caption string `json:"caption" form:"caption"`
 }
 
 type UpdateContentRequest struct {
-	Caption string `json:"caption"`
+	Caption string `json:"caption" form:"caption"`
 }
 
 func ToCore(data interface{}) *content.Core {

@@ -49,6 +49,10 @@ type Banner struct {
 	Banner multipart.File `json:"banner,omitempty" validate:"required"`
 }
 
+type Content struct {
+	Content multipart.File `json:"content,omitempty" validate:"required"`
+}
+
 type Url struct {
 	Url string `json:"url,omitempty" validate:"required"`
 }
@@ -61,6 +65,7 @@ type mediaUpload interface {
 	FileUpload(file File) (string, error)
 	RemoteUpload(url Url) (string, error)
 	BannerUpload(banner Banner) (string, error)
+	ContentUpload(content Content) (string, error)
 }
 
 func (*media) RemoteUpload(url Url) (string, error) {
@@ -92,6 +97,21 @@ func (*media) BannerUpload(banner Banner) (string, error) {
 
 	//upload
 	uploadUrl, err := ImageUploadHelper(banner.Banner)
+	if err != nil {
+		return "", err
+	}
+	return uploadUrl, nil
+}
+
+func (*media) ContentUpload(content Content) (string, error) {
+	//validate
+	err := validate.Struct(content)
+	if err != nil {
+		return "", err
+	}
+
+	//upload
+	uploadUrl, err := ImageUploadHelper(content.Content)
 	if err != nil {
 		return "", err
 	}
