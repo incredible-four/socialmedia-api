@@ -92,6 +92,29 @@ func (_m *ContentData) Delete(userID uint, contentID uint) error {
 	return r0
 }
 
+// GetProfile provides a mock function with given fields: username
+func (_m *ContentData) GetProfile(username string) ([]content.Core, error) {
+	ret := _m.Called(username)
+
+	var r0 []content.Core
+	if rf, ok := ret.Get(0).(func(string) []content.Core); ok {
+		r0 = rf(username)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]content.Core)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(username)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // Update provides a mock function with given fields: userID, contentID, updatedContent
 func (_m *ContentData) Update(userID uint, contentID uint, updatedContent content.Core) (content.Core, error) {
 	ret := _m.Called(userID, contentID, updatedContent)
