@@ -66,6 +66,74 @@ Simply [click here](https://app.swaggerhub.com/apis-docs/ALIFMUHAMADHAFIDZ23/Soc
 # 🔗 ERD
 
 ![run](./entity-relationship-diagram.png)
+
+# 📂 Folder Structure Pattern
+
+```
+├── .github
+│   └── workflows
+│       └── main.yml
+├── config
+│   └── cloudinary.go
+│   └── config.go
+│   └── db.go
+└── dtos
+│   └── media_dto.go
+└── features
+│   └── comment
+│   │   └── data
+│   │   │   └── model.go
+│   │   │   └── query.go
+│   │   └── handler
+│   │   │   └── handler.go
+│   │   │   └── request.go
+│   │   │   └── response.go
+│   │   └── services
+│   │   │   └── service_test.go
+│   │   │   └── service.go
+│   │   └── entity.go
+│   └── content
+│   │   └── data
+│   │   │   └── model.go
+│   │   │   └── query.go
+│   │   └── handler
+│   │   │   └── handler.go
+│   │   │   └── request.go
+│   │   │   └── response.go
+│   │   └── services
+│   │   │   └── service_test.go
+│   │   │   └── service.go
+│   │   └── entity.go
+│   └── user
+│   │   └── data
+│   │   │   └── model.go
+│   │   │   └── query.go
+│   │   └── handler
+│   │   │   └── handler.go
+│   │   │   └── request.go
+│   │   │   └── response.go
+│   │   └── services
+│   │   │   └── service_test.go
+│   │   │   └── service.go
+│   │   └── entity.go
+└── helper
+│   └── cloudinary_helper.go
+│   └── jwt.go
+│   └── pwd.go
+│   └── response.go
+└── mocks
+├── .gitignore
+├── cloud.env.example
+├── dockerfile
+├── go.mod
+├── go.sum
+├── LICENSE
+├── local.env.example
+├── main.go
+├── openapi.yaml
+└── README.md
+```
+
 # 💻 Built with
 
 - [Golang](https://go.dev/) : Programming Language
@@ -78,7 +146,7 @@ Simply [click here](https://app.swaggerhub.com/apis-docs/ALIFMUHAMADHAFIDZ23/Soc
 - [Amazon EC2](https://aws.amazon.com/) : Cloud server
 - [Cloudinary](https://cloudinary.com/) : Store and retrieve images
 
-# 🛠️ Installation Steps
+# 🛠️ How to Run Locally
 
 - Clone it
 
@@ -96,13 +164,14 @@ $ cd socialmedia-api
 
 - Rename `local.env.example` to `local.env`
 - Rename `cloud.env.example` to `cloud.env`
-- Adjust `local.env` & `cloud.env`as your environment settings
+- Adjust `local.env` & `cloud.env` as your environment settings
 
 - Run the project
 
 ```
 $ go run .
 ```
+- Voila! 🪄
 
 # 🤖 Author
 
