@@ -146,7 +146,7 @@ func (cs *contentSrv) Delete(token interface{}, contentID uint) error {
 	return nil
 }
 
-func (cs *contentSrv) GetProfile(username string) ([]content.Core, error) {
+func (cs *contentSrv) GetProfile(username string) (interface{}, error) {
 	res, err := cs.data.GetProfile(username)
 	if err != nil {
 		msg := ""
@@ -155,7 +155,7 @@ func (cs *contentSrv) GetProfile(username string) ([]content.Core, error) {
 		} else {
 			msg = "unable to process the data"
 		}
-		return []content.Core{}, errors.New(msg)
+		return nil, errors.New(msg)
 	}
 	return res, nil
 }
