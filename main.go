@@ -47,20 +47,26 @@ func main() {
 	e.GET("/contents/:id", contentHdl.ContentDetail())
 	e.GET("/contents", contentHdl.ContentList())
 
-	auth := e.Group("")
-	auth.Use(middleware.JWT([]byte(config.JWTKey)))
-	
-	auth.GET("/users", userHdl.Profile())
-	auth.PUT("/users", userHdl.Update())
-	auth.DELETE("/users", userHdl.Deactivate())
-	
-	auth.POST("/contents", contentHdl.Add())
-	auth.PUT("/contents/:id", contentHdl.Update())
-	auth.DELETE("/contents/:id", contentHdl.Delete())
-	
-	auth.POST("/comments/:id", commentHdl.Add())
-	auth.DELETE("/comments/:id", commentHdl.Delete())
-	
+	user := e.Group("/users")
+
+	content := e.Group("")
+	content.Use(middleware.JWT([]byte(config.JWTKey)))
+
+	comment := e.Group("")
+	comment.Use(middleware.JWT([]byte(config.JWTKey)))
+
+	user.GET("/:username", contentHdl.GetProfile())
+	user.GET("", userHdl.Profile(), middleware.JWT([]byte(config.JWTKey)))
+	user.PUT("", userHdl.Update(), middleware.JWT([]byte(config.JWTKey)))
+	user.DELETE("", userHdl.Deactivate(), middleware.JWT([]byte(config.JWTKey)))
+
+	content.POST("/contents", contentHdl.Add())
+	content.PUT("/contents/:id", contentHdl.Update())
+	content.DELETE("/contents/:id", contentHdl.Delete())
+
+	comment.POST("/comments/:id", commentHdl.Add())
+	comment.DELETE("/comments/:id", commentHdl.Delete())
+
 	if err := e.Start(":8000"); err != nil {
 		log.Println(err.Error())
 	}

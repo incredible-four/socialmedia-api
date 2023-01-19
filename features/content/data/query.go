@@ -109,7 +109,7 @@ func (cd *contentData) Delete(userID uint, contentID uint) error {
 
 func (cd *contentData) GetProfile(username string) ([]content.Core, error) {
 	res := []Contents{}
-	if err := cd.db.Table("contents").Joins("JOIN users ON users.username = contents.user_id").Select("contents.id, users.avatar as avatar, users.username as username, contents.image, contents.caption, contents.created_at as CreatedAt").Where("username = ?", username).Find(&res).Error; err != nil {
+	if err := cd.db.Table("contents").Joins("JOIN users ON users.id = contents.user_id").Select("users.id, users.avatar as avatar, users.username as username, contents.image, contents.caption, contents.user_id, contents.created_at").Where("users.username = ?", username).Find(&res).Error; err != nil {
 		log.Println("Get User Content by username query error : ", err.Error())
 		return []content.Core{}, err
 	}
