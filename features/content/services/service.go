@@ -82,7 +82,7 @@ func (cs *contentSrv) ContentDetail(contentID uint) (interface{}, error) {
 		if strings.Contains(err.Error(), "not found") {
 			msg = "content not found"
 		} else {
-			msg = "unable to process the data"
+			msg = "There is a problem with the server"
 		}
 		return content.Core{}, errors.New(msg)
 	}
@@ -96,7 +96,7 @@ func (cs *contentSrv) ContentList() ([]content.Core, error) {
 		if strings.Contains(err.Error(), "not found") {
 			msg = "content not found"
 		} else {
-			msg = "unable to process the data"
+			msg = "There is a problem with the server"
 		}
 		return []content.Core{}, errors.New(msg)
 	}
