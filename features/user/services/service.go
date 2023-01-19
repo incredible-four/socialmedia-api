@@ -36,7 +36,7 @@ func (uuc *userUseCase) Register(newUser user.Core) error {
 		msg := ""
 		if strings.Contains(err.Error(), "duplicated") {
 			msg = "Username or email already exist"
-		} else if strings.Contains(err.Error(), "password") {
+		} else if strings.Contains(err.Error(), "query") {
 			msg = "There is a problem with the server"
 		} else {
 			msg = "There is a problem with the server"
