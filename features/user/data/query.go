@@ -14,24 +14,24 @@ type userQuery struct {
 }
 
 func New(db *gorm.DB) user.UserData {
-	return &userQuery {
+	return &userQuery{
 		db: db,
 	}
 }
 
-func (uq *userQuery) isDuplicate(username, email string) (bool) {
+func (uq *userQuery) isDuplicate(username, email string) bool {
 	res := Users{}
 	if err := uq.db.Where("username = ? OR email = ?", username, email).First(&res).Error; err != nil {
 		log.Println("Check data error : ", err.Error())
 		if strings.Contains(err.Error(), "not found") {
 			return false
 		}
-		
+
 	}
 	return true
 }
 
-func (uq *userQuery) Register(newUser user.Core) (error) {
+func (uq *userQuery) Register(newUser user.Core) error {
 	cnv := CoreToData(newUser)
 	isDupl := uq.isDuplicate(cnv.Username, cnv.Email)
 
@@ -91,7 +91,7 @@ func (uq *userQuery) Update(updatedProfile user.Core) (user.Core, error) {
 	return ToCore(cnvUpdated), nil
 }
 
-func (uq *userQuery) Deactivate(id uint) (error) {
+func (uq *userQuery) Deactivate(id uint) error {
 	qryDelete := uq.db.Delete(&Users{}, id)
 
 	affRow := qryDelete.RowsAffected

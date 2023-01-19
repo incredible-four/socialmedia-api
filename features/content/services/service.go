@@ -146,7 +146,7 @@ func (cs *contentSrv) Delete(token interface{}, contentID uint) error {
 	return nil
 }
 
-func (cs *contentSrv) GetProfile(username string) (interface{}, error) {
+func (cs *contentSrv) GetProfile(username string) ([]content.Core, error) {
 	res, err := cs.data.GetProfile(username)
 	if err != nil {
 		msg := ""
