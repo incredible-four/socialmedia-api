@@ -64,7 +64,7 @@ func (ch *contentHandle) ContentDetail() echo.HandlerFunc {
 			return c.JSON(helper.PrintErrorResponse(err.Error()))
 		}
 
-		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "success get user content", ToResponse(res)))
+		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "success get user content", res))
 	}
 }
 
@@ -138,6 +138,6 @@ func (ch *contentHandle) GetProfile() echo.HandlerFunc {
 		if err != nil {
 			return c.JSON(helper.PrintErrorResponse(err.Error()))
 		}
-		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "success get user content", ListCoreToResp(res)))
+		return c.JSON(helper.PrintSuccessReponse(http.StatusCreated, "success get user content", res))
 	}
 }

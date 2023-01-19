@@ -74,7 +74,7 @@ func (cs *contentSrv) Add(formHeader multipart.FileHeader, token interface{}, ne
 	return res, nil
 }
 
-func (cs *contentSrv) ContentDetail(contentID uint) (content.Core, error) {
+func (cs *contentSrv) ContentDetail(contentID uint) (interface{}, error) {
 
 	res, err := cs.data.ContentDetail(contentID)
 	if err != nil {
@@ -146,7 +146,7 @@ func (cs *contentSrv) Delete(token interface{}, contentID uint) error {
 	return nil
 }
 
-func (cs *contentSrv) GetProfile(username string) ([]content.Core, error) {
+func (cs *contentSrv) GetProfile(username string) (interface{}, error) {
 	res, err := cs.data.GetProfile(username)
 	if err != nil {
 		msg := ""
