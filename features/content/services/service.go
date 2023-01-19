@@ -145,3 +145,17 @@ func (cs *contentSrv) Delete(token interface{}, contentID uint) error {
 
 	return nil
 }
+
+func (cs *contentSrv) GetProfile(username string) ([]content.Core, error) {
+	res, err := cs.data.GetProfile(username)
+	if err != nil {
+		msg := ""
+		if strings.Contains(err.Error(), "not found") {
+			msg = "content not found"
+		} else {
+			msg = "unable to process the data"
+		}
+		return []content.Core{}, errors.New(msg)
+	}
+	return res, nil
+}
