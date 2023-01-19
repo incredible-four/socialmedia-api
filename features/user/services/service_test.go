@@ -204,11 +204,12 @@ func TestProfile(t *testing.T) {
 func TestUpdate(t *testing.T) {
 	repo := mocks.NewUserData(t)
 	hashed, _ := helper.GeneratePassword("alif123")
+	inputData := user.Core{Bio: "BE 14", Name: "Alif Muhamad Hafidz", Email: "alif@alif.com", Username: "alif", Password: hashed}
+	resData := user.Core{Bio: "BE 14", Name: "Alif Muhamad Hafidz", Email: "alif@alif.com", Username: "alif", Password: hashed}
 	var a, b multipart.FileHeader
 	t.Run("success update profile", func(t *testing.T) {
-		inputData := user.Core{ID: uint(1), Avatar: "https://res.cloudinary.com/dg5psgujz/image/upload/v1674109694/incredible4/wkoznm8ujw5l66vyqg2i.jpg", Banner: "https://res.cloudinary.com/dg5psgujz/image/upload/v1674109696/incredible4/hk5vhzorzxagspio0hue.png", Bio: "BE 14", Name: "Alif Muhamad Hafidz", Email: "alif@alif.com", Username: "alif", Password: hashed}
-		resData := user.Core{ID: uint(1), Avatar: "https://res.cloudinary.com/dg5psgujz/image/upload/v1674109694/incredible4/wkoznm8ujw5l66vyqg2i.jpg", Banner: "https://res.cloudinary.com/dg5psgujz/image/upload/v1674109696/incredible4/hk5vhzorzxagspio0hue.png", Bio: "BE 14", Name: "Alif Muhamad Hafidz", Email: "alif@alif.com", Username: "alif"}
-		repo.On("Update", uint(1), inputData).Return(resData, nil).Once()
+		repo.On("Profile", uint(1)).Return(resData, nil).Once()
+		repo.On("Update", uint(1), mock.Anything).Return(resData, nil).Once()
 
 		srv := New(repo)
 
@@ -220,8 +221,49 @@ func TestUpdate(t *testing.T) {
 		assert.Nil(t, err)
 		assert.Equal(t, resData.ID, res.ID)
 		assert.Equal(t, resData.Name, res.Name)
-		assert.Equal(t, resData.Email, res.Email)
-		assert.Equal(t, resData.Bio, res.Bio)
+		repo.AssertExpectations(t)
+	})
+
+	t.Run("jwt tidak valid", func(t *testing.T) {
+		inputData := user.Core{Bio: "BE 14", Name: "Alif Muhamad Hafidz", Email: "alif@alif.com", Username: "alif"}
+		srv := New(repo)
+
+		_, token := helper.GenerateJWT(0)
+		pToken := token.(*jwt.Token)
+		pToken.Valid = true
+		res, err := srv.Update(a, b, pToken, inputData)
+		assert.NotNil(t, err)
+		assert.ErrorContains(t, err, "not found")
+		assert.Equal(t, uint(0), res.ID)
+	})
+
+	t.Run("Data not found", func(t *testing.T) {
+		inputData := user.Core{Bio: "BE 14", Name: "Alif Muhamad Hafidz", Email: "alif@alif.com", Username: "alif"}
+		repo.On("Update", uint(2), inputData).Return(user.Core{}, errors.New("data not found")).Once()
+
+		srv := New(repo)
+		_, token := helper.GenerateJWT(2)
+		pToken := token.(*jwt.Token)
+		pToken.Valid = true
+		res, err := srv.Update(a, b, pToken, inputData)
+		assert.NotNil(t, err)
+		assert.ErrorContains(t, err, "header")
+		assert.Equal(t, uint(0), res.ID)
+		repo.AssertExpectations(t)
+	})
+
+	t.Run("masalah di server", func(t *testing.T) {
+		inputData := user.Core{Bio: "BE 14", Name: "Alif Muhamad Hafidz", Email: "alif@alif.com", Username: "alif"}
+		repo.On("Update", uint(2), inputData).Return(user.Core{}, errors.New("terdapat masalah pada server")).Once()
+
+		srv := New(repo)
+		_, token := helper.GenerateJWT(1)
+		pToken := token.(*jwt.Token)
+		pToken.Valid = true
+		res, err := srv.Update(a, b, pToken, inputData)
+		assert.NotNil(t, err)
+		assert.ErrorContains(t, err, "header")
+		assert.Equal(t, uint(0), res.ID)
 		repo.AssertExpectations(t)
 	})
 }
