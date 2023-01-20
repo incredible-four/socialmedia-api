@@ -133,17 +133,23 @@ Simply [click here](https://app.swaggerhub.com/apis-docs/ALIFMUHAMADHAFIDZ23/Soc
 # 🔗 ERD
 
 ![run](./entity-relationship-diagram.png)
-# 💻 Built with
-
-- [Golang](https://go.dev/) : Programming Language
-- [Viper](https://github.com/spf13/viper) : Environment Reader
-- [Echo](https://echo.labstack.com/) : Web Framework
-- [JWT](https://jwt.io/) : Authentication & Authorization
-- [GORM](https://gorm.io/) : ORM Library
-- [MySQL](https://gorm.io/) : Database Management System
-- [Docker](https://docker.com/) : Containerization
-- [Amazon EC2](https://aws.amazon.com/) : Cloud server
-- [Cloudinary](https://cloudinary.com/) : Store and retrieve images
+# 💻 Tools & Technologies
+- Backend Stacks :
+  - [Golang](https://go.dev/) : Programming Language
+  - [Viper](https://github.com/spf13/viper) : Environment Reader
+  - [Echo](https://echo.labstack.com/) : Web Framework
+  - [JWT](https://jwt.io/) : Authentication & Authorization
+  - [GORM](https://gorm.io/) : ORM Library
+  - [MySQL](https://gorm.io/) : Database Management System
+- Documentation :
+  - [Postman](https://www.postman.com/) : API Testing & Documentation
+  - [Swagger](https://swagger.io/) : Open API Documentation
+- Deployment & Storage :
+  - [Ubuntu](https://ubuntu.com/) : Development & Deployment OS
+  - [Docker](https://docker.com/) : Containerization
+  - [Amazon EC2](https://aws.amazon.com/) : Cloud server
+  - [Cloudinary](https://cloudinary.com/) : Store and retrieve images
+  - [Cloudflare](https://www.cloudflare.com/) : SSL & Proxy
 
 # 🛠️ How to Run Locally
 
