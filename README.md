@@ -89,7 +89,7 @@ This RESTful API was developed by using Golang and written based on Clean Archit
 
 # 🔥 Open API
 
-Simply [click here](https://app.swaggerhub.com/apis-docs/ALIFMUHAMADHAFIDZ23/SocialMedia-Group4/1.0.0) to see the details of endpoints we have agreed on.
+Simply [click here](https://app.swaggerhub.com/apis-docs/ALIFMUHAMADHAFIDZ23/SocialMedia-Group4/1.0.0) to see the details of endpoints we have agreed with our FE team.
 
 <details>
   <summary>👶 Users</summary>
@@ -176,11 +176,11 @@ $ go run .
 
 - Alif Muhamad Hafidz :
 
-    <a target="_blank" href="https://github.com/AlifMuhamadHafidz"><img style="vertical-align: middle;" alt="Alif" src="https://raw.githubusercontent.com/hebobibun/hebobibun/main/assets/Alif.png" width="83"></a>&ensp;
+    <a target="_blank" href="https://github.com/AlifMuhamadHafidz"><img style="vertical-align: middle;" alt="Alif" src="https://raw.githubusercontent.com/hebobibun/hebobibun/main/assets/Alif.png" width="77"></a>&ensp;
 
 - Muhammad Habibullah :
 
-    <a target="_blank" href="https://github.com/hebobibun"><img style="vertical-align: middle;" alt="Habib" src="https://raw.githubusercontent.com/hebobibun/hebobibun/main/assets/Habib.png" width="100"></a>&ensp;
+    <a target="_blank" href="https://github.com/hebobibun"><img style="vertical-align: middle;" alt="Habib" src="https://raw.githubusercontent.com/hebobibun/hebobibun/main/assets/Habib.png" width="94"></a>&ensp;
 
 
 
