@@ -133,7 +133,7 @@ Simply [click here](https://app.swaggerhub.com/apis-docs/ALIFMUHAMADHAFIDZ23/Soc
 # 🔗 ERD
 
 ![run](./entity-relationship-diagram.png)
-# 💻 Tools & Technologies
+# 💻 Tools & Stacks
 - Backend Stacks :
   - [Golang](https://go.dev/) : Programming Language
   - [Viper](https://github.com/spf13/viper) : Environment Reader
