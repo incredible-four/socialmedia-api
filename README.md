@@ -190,7 +190,7 @@ $ go run .
 
 
 <h5>
-<p align="center">©️ 2023 | This Repository Built with ❤️ from us</p>
+<p align="center">©️ 2023 - Built with ❤️ by Incredible Four - All rights reserved</p>
 </h5>
 
 
