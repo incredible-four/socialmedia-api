@@ -20,53 +20,6 @@ This RESTful API was developed by using Golang and written based on Clean Archit
 - Database Migration
 - Automated deployment with GitHub Actions, DockerHub & AWS EC2
 
-# 🔥 Open API
-
-Simply [click here](https://app.swaggerhub.com/apis-docs/ALIFMUHAMADHAFIDZ23/SocialMedia-Group4/1.0.0) to see the details of endpoints we have agreed on.
-
-<details>
-  <summary>👶 Users</summary>
-  
-| Method      | Endpoint            | Params      | JWT Token   | Function                                |
-| ----------- | ------------------- | ----------- | ----------- | --------------------------------------- |
-| POST        | /register           | -           | NO          | Register a new user                     |
-| POST        | /login              | -           | NO          | Login to the system                     |
-| GET         | /users/{username}   | username    | NO          | Show profile (get user & its contents)  |
-| GET         | /users              | -           | YES         | Get data user (for edit profile form)   |
-| PUT         | /users              | -           | YES         | Update user profile                     |
-| DELETE      | /users              | -           | YES         | Deactivate user account                 |
-  
-</details>
-
-<details>
-  <summary>🔖 Contents</summary>
-  
-| Method      | Endpoint                | Params      | JWT Token   | Function                                |
-| ----------- | ----------------------- | ----------- | ----------- | --------------------------------------- |
-| GET         | /contents               | -           | NO          | Get all contents                        |
-| GET         | /contents/{id_content}  | id_content  | NO          | Get a content by its ID                 |
-| POST        | /contents               | -           | YES         | Post a new content                      |
-| PUT         | /contents/{id_content}  | id_content  | YES         | Update a content                        |
-| DELETE      | /contents/{id_content}  | id_content  | YES         | Delete a content                        |
-  
-</details>
-
-<details>
-  <summary>🗨️ Comments</summary>
-  
-| Method      | Endpoint                | Params      | JWT Token   | Function                                |
-| ----------- | ----------------------- | ----------- | ----------- | --------------------------------------- |
-| POST        | /comments/{id_content}  | id_content  | YES         | Post a new comment                      |
-| DELETE      | /comments/{id_comment}  | id_comment  | YES         | Delete a comment                        |
-  
-</details>
-
-
-
-# 🔗 ERD
-
-![run](./entity-relationship-diagram.png)
-
 # 📂 Folder Structure Pattern
 
 ```
@@ -134,6 +87,52 @@ Simply [click here](https://app.swaggerhub.com/apis-docs/ALIFMUHAMADHAFIDZ23/Soc
 └── README.md
 ```
 
+# 🔥 Open API
+
+Simply [click here](https://app.swaggerhub.com/apis-docs/ALIFMUHAMADHAFIDZ23/SocialMedia-Group4/1.0.0) to see the details of endpoints we have agreed on.
+
+<details>
+  <summary>👶 Users</summary>
+  
+| Method      | Endpoint            | Params      | JWT Token   | Function                                |
+| ----------- | ------------------- | ----------- | ----------- | --------------------------------------- |
+| POST        | /register           | -           | NO          | Register a new user                     |
+| POST        | /login              | -           | NO          | Login to the system                     |
+| GET         | /users/{username}   | username    | NO          | Show profile (get user & its contents)  |
+| GET         | /users              | -           | YES         | Get data user (for edit profile form)   |
+| PUT         | /users              | -           | YES         | Update user profile                     |
+| DELETE      | /users              | -           | YES         | Deactivate user account                 |
+  
+</details>
+
+<details>
+  <summary>🔖 Contents</summary>
+  
+| Method      | Endpoint                | Params      | JWT Token   | Function                                |
+| ----------- | ----------------------- | ----------- | ----------- | --------------------------------------- |
+| GET         | /contents               | -           | NO          | Get all contents                        |
+| GET         | /contents/{id_content}  | id_content  | NO          | Get a content by its ID                 |
+| POST        | /contents               | -           | YES         | Post a new content                      |
+| PUT         | /contents/{id_content}  | id_content  | YES         | Update a content                        |
+| DELETE      | /contents/{id_content}  | id_content  | YES         | Delete a content                        |
+  
+</details>
+
+<details>
+  <summary>🗨️ Comments</summary>
+  
+| Method      | Endpoint                | Params      | JWT Token   | Function                                |
+| ----------- | ----------------------- | ----------- | ----------- | --------------------------------------- |
+| POST        | /comments/{id_content}  | id_content  | YES         | Post a new comment                      |
+| DELETE      | /comments/{id_comment}  | id_comment  | YES         | Delete a comment                        |
+  
+</details>
+
+
+
+# 🔗 ERD
+
+![run](./entity-relationship-diagram.png)
 # 💻 Built with
 
 - [Golang](https://go.dev/) : Programming Language
